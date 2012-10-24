@@ -1,52 +1,87 @@
 #!/bin/bash
+##
+## Post-install script for an Ubuntu enviroment
+##
 
-#TODO: pedir pelo login e senha
-#$LOGIN=
-#$SENHA=
+#TODO:
+# * install Skype
+# * install Citrix Receiver
+#   ==> http://www.citrix.com/downloads/citrix-receiver/receivers-by-platform/receiver-for-linux-121.html#ctx-dl-eula
+# * dotfiles
+# * chrome(ium) and firefox sync
+# * setting wallpaper
+# * directories 
 
-PROXY_URL=http://$LOGIN:$SENHA@10.13.10.250:8080/
+sudo echo "$USER    ALL=(ALL)   NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$USER > /dev/null
+sudo chmod 0400 /etc/sudoers.d/$USER
 
-#Configura proxy para apt e http
-sudo cat << EOF >> /etc/apt/apt.conf 
-Acquire{
-	ftp::"$PROXY_URL";
-	http::"$PROXY_URL";
-	https::"$PROXY_URL";
-}
-EOF
+# rip off some undesired packages
+sudo apt-get -y remove unity-lens-music unity-lens-photos \
+unity-scope-home unity-lens-video
 
-sudo cat << EOF >> /etc/profile
-export ftp_proxy="$PROXY_URL";
-export http_proxy="$PROXY_URL";
-export https_proxy="$PROXY_URL";
-}
-EOF
+
+# sublime Text 2
+sudo -E add-apt-repository -y ppa:webupd8team/sublime-text-2
+# ubuntu-tweak
+sudo -E add-apt-repository -y ppa:tualatrix/ppa
+# faenza-icon-theme
+sudo -E add-apt-repository -y ppa:tiheum/equinox
 
 sudo apt-get -y update
+sudo apt-get -y install alien build-essential checkinstall curl \
+faenza-icon-theme git guake libsasl2-dev libxml2-dev libxslt1-dev mercurial \
+python-dev python-pip python-setuptools python-virtualenv rubygems \
+sublime-text-2-beta subversion synapse vim virtualbox wireshark xclip \
+zlib1g-dev zsh
 
-#Apaga alguns pacotes não-essenciais para desenvolvimento
-sudo apt-get -y remove rhythmbox brasero totem libreoffice-core thunderbird bluez
+#citrix dependencies
+sudo apt-get -y install lib32asound2 lib32z1 nspluginwrapper
 
-#Configura as unidades de rede
-#sudo apt-get install smbfs
+sudo gem install vagrant
 
-#Instala o suporte a pt_BR
-#TODO
+sudo apt-get -y install browser-plugin-vlc calibre chromium-browser gimp \
+gnome-tweak-tool inkscape transmission ubuntu-restricted-addons \
+ubuntu-restricted-extras ubuntu-tweak unity-tweak-tool vlc
 
-#Instala pacotes adicionais do VirtualBox
-sudo apt-get install virtualbox-guest-additions virtualbox-guest-x11
+# installs oh-my-zsh
+curl -L http://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
+
+# changes default shell
+chsh -s /usr/bin/zsh
+
+sudo mkdir -p /var/cache/buildout/eggs
+sudo mkdir -p /var/cache/buildout/dlcache
+sudo -E chown -R $USER /var/cache/buildout/ -R
 
 
-###############################
-# Ambiente de desenvolvimento #
-###############################
-sudo add-apt-repository ppa:webupd8team/sublime-text-2
-sudo apt-get -y install build-essential curl git guake mercurial sublime-text-2 subversion unixodbc-dev vim zsh
-curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | sh
 
-#configura proxy para subversion
-#TODO
+# pt_BR support
+sudo apt-get -y install language-pack-pt language-pack-gnome-pt \
+hunspell-en-ca hyphen-en-us libreoffice-help-en-gb \
+libreoffice-help-pt libreoffice-help-pt-br libreoffice-l10n-en-gb \
+libreoffice-l10n-en-za libreoffice-l10n-pt libreoffice-l10n-pt-br \
+myspell-en-au myspell-en-gb myspell-en-za myspell-pt mythes-en-au \
+mythes-en-us openoffice.org-hyphenation wbrazilian wbritish wportuguese
 
-#TODO: instalar o 2.6 e 2.4#
-#criar ~/bin/ com e com virtualenv2.6
+# dropbox
+sudo apt-get install python-gpgme
+wget -c 'https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_1.6.0_amd64.deb' -O dropbox.deb
+sudo dpkg -i dropbox.deb && rm dropbox.deb
 
+# hangouts plugin
+wget -c 'https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb' -O gtalk.deb
+sudo dpkg -i gtalk.deb && rm gtalk.deb
+
+# cleans apt cache
+sudo apt-get clean
+
+# desktop tweaks
+dconf write /com/canonical/indicator/datetime/show-date true
+dconf write /com/canonical/indicator/datetime/show-day true
+dconf write /com/canonical/unity/lenses/remote-content-search '"none"'
+dconf write /org/gnome/desktop/interface/icon-theme '"Faenza-Ambiance"'
+dconf write /com/canonical/unity/launcher/favorites '["application://nautilus.desktop", "application://chromium-browser.desktop", "application://sublime-text-2.desktop", "application://firefox.desktop", "unity://running-apps", "unity://expo-icon", "unity://devices"]'
+
+# create ssh key
+ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa -q
+ssh-add
