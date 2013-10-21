@@ -123,6 +123,7 @@ instala_pacotes \
     checkinstall \
     curl \
     git \
+    libaio1 \
     libjpeg-dev \
     libsasl2-dev \
     libxml2-dev \
