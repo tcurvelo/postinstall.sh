@@ -61,6 +61,7 @@ EOF
     #Configura proxy para subversion
     mkdir ~/.subversion/
     cat > ~/.subversion/servers << EOF
+[global]
 http-proxy-host = $PROXY_HOST
 http-proxy-port = $PROXY_PORT
 http-proxy-username = $LOGIN
