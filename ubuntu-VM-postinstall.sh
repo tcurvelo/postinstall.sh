@@ -125,7 +125,9 @@ instala_pacotes \
     git \
     libaio1 \
     libjpeg-dev \
+    libpcre3-dev \
     libsasl2-dev \
+    libssl-dev \
     libxml2-dev \
     libxslt1-dev \
     mercurial \
