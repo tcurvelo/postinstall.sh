@@ -70,6 +70,9 @@ sudo apt-get install --reinstall locales && sudo dpkg-reconfigure locales
 sudo apt-get clean
 
 # Cria diretorios para cache do buildout
+# Cria diretorios para cache do buildout
 sudo mkdir -p /var/cache/buildout/eggs
 sudo mkdir -p /var/cache/buildout/dlcache
-sudo -E chown -R $USER /var/cache/buildout/ -R
+sudo -E chown -R root.sudo /var/cache/buildout/ -R
+sudo -E chmod g+ws /var/cache/buildout/eggs
+sudo -E chmod g+ws /var/cache/buildout/dlcache

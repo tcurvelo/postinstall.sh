@@ -177,7 +177,9 @@ dconf write /com/canonical/unity/launcher/favorites '["application://nautilus.de
 # Cria diretorios para cache do buildout
 sudo mkdir -p /var/cache/buildout/eggs
 sudo mkdir -p /var/cache/buildout/dlcache
-sudo -E chown -R $USER /var/cache/buildout/ -R
+sudo -E chown -R root.sudo /var/cache/buildout/ -R
+sudo -E chmod g+ws /var/cache/buildout/eggs
+sudo -E chmod g+ws /var/cache/buildout/dlcache
 
 # Limpa cache do apt
 sudo apt-get clean
