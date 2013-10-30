@@ -1,9 +1,9 @@
 #!/bin/bash
 
-##########################################
-## Script de pos-instalacao para uma VM ##
-## de desenvolvimento rodando Ubuntu    ##
-##########################################
+#######
+## Script de pos-instalacao para uma maquina de de desenvolvimento
+## rodando Ubuntu
+#######################################################################
 
 function instala_pacotes {
     for pacote in $*
@@ -80,7 +80,6 @@ fi
 remove_pacotes \
     account-plugin-facebook \
     account-plugin-twitter \
-    bluez\
     brasero \
     gwibber-service-facebook \
     gwibber-service-twitter \
@@ -97,24 +96,11 @@ remove_pacotes \
     ;
 
 
-## Inclui alguns repositorios
-########################################################################
-
-#Repositorio para o Sublime Text 2
-sudo -E add-apt-repository -y ppa:webupd8team/sublime-text-2
-
-#Repositorio para ubuntu-tweak
-sudo -E add-apt-repository -y ppa:tualatrix/ppa
-
-#Repositorio para faenza-icon-theme
-#sudo -E add-apt-repository -y ppa:tiheum/equinox
-
-#Repositorio para python2.6
-#sudo -E add-apt-repository -y ppa:fkrull/deadsnakes
-
-
 ## Instala pacotes para desenvolvimento
 ########################################################################
+
+# Repositorio para o Sublime Text 2
+sudo -E add-apt-repository -y ppa:webupd8team/sublime-text-2
 
 sudo apt-get -qq update
 instala_pacotes \
@@ -136,31 +122,23 @@ instala_pacotes \
     python-setuptools \
     python-virtualenv \
     rubygems \
-    sublime-text \
     subversion \
     unixodbc-dev \
     vim \
-    wireshark \
-    xclip \
     zlib1g-dev \
     zsh \
     ;
-#    python2.6-dev \
-
-#Instala oh-my-zsh
-curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
-chsh -s /usr/bin/zsh
-
-
-## Instala pacotes para desktop ubuntu
-########################################################################
 
 instala_pacotes \
-    synapse \
-    ubuntu-tweak \
-    gnome-tweak-tool \
+    sublime-text \
+    chromium-browser \
+    wireshark \
+    xclip \
     ;
-#    faenza-icon-theme \
+
+# Instala oh-my-zsh
+curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
+chsh -s /usr/bin/zsh
 
 
 ## Instala o suporte a pt_BR
@@ -189,25 +167,21 @@ instala_pacotes \
     wportuguese \
     ;
 
-## Instala pacotes adicionais do VirtualBox
-########################################################################
-instala_pacotes \
-    virtualbox-guest-additions-iso \
-    virtualbox-guest-x11 \
-    ;
-
 ## Ajustes no Desktop
 ########################################################################
 dconf write /com/canonical/indicator/datetime/show-date true
 dconf write /com/canonical/indicator/datetime/show-day true
 dconf write /com/canonical/unity/lenses/remote-content-search '"none"'
-#dconf write /org/gnome/desktop/interface/icon-theme '"Faenza-Ambiance"'
 dconf write /com/canonical/unity/launcher/favorites '["application://nautilus.desktop", "application://chromium-browser.desktop", "application://sublime-text-2.desktop", "application://firefox.desktop", "unity://running-apps", "unity://expo-icon", "unity://devices"]'
 
+# Cria diretorios para cache do buildout
 sudo mkdir -p /var/cache/buildout/eggs
 sudo mkdir -p /var/cache/buildout/dlcache
 sudo -E chown -R $USER /var/cache/buildout/ -R
 
-
-#Limpa cache do apt
+# Limpa cache do apt
 sudo apt-get clean
+
+# Cria chave ssh
+ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa -q
+ssh-add
