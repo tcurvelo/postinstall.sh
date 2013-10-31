@@ -80,15 +80,8 @@ fi
 remove_pacotes \
     account-plugin-facebook \
     account-plugin-twitter \
-    brasero \
     gwibber-service-facebook \
     gwibber-service-twitter \
-    rhythmbox \
-    thunderbird \
-    totem \
-    ;
-
-remove_pacotes \
     unity-lens-music \
     unity-lens-photos \
     unity-lens-shopping \
