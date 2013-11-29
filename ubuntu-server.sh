@@ -47,6 +47,7 @@ instala_pacotes \
     libxml2-dev \
     libxslt1-dev \
     mercurial \
+    p7zip-full \
     python-dev \
     python-pip \
     python-setuptools \
