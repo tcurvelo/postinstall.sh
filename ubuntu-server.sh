@@ -41,6 +41,7 @@ $INSTALA_PACOTES \
     python-pip \
     python-setuptools \
     python-virtualenv \
+    ranger \
     rubygems \
     subversion \
     unixodbc-dev \
