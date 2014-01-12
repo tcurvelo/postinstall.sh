@@ -5,19 +5,8 @@
 ## rodando Ubuntu
 #######################################################################
 
-function instala_pacotes {
-    for pacote in $*
-    do
-        sudo apt-get -qq install $pacote
-    done
-}
-
-function remove_pacotes {
-    for pacote in $*
-    do
-        sudo apt-get -qq remove $pacote
-    done
-}
+INSTALA_PACOTES="sudo apt-get -qq install "
+REMOVE_PACOTES="sudo apt-get -qq remove "
 
 
 ## Inclui usuario no sudoers, sem senha
@@ -29,6 +18,7 @@ then
     sudo echo $SUDOER_LINE | sudo tee -a /etc/sudoers.d/$USER > /dev/null
     sudo chmod 0400 /etc/sudoers.d/$USER
 fi
+
 
 ## Configura o proxy
 ########################################################################
@@ -77,7 +67,7 @@ fi
 
 ## Apaga alguns pacotes não-essenciais
 ########################################################################
-remove_pacotes \
+$REMOVE_PACOTES \
     account-plugin-facebook \
     account-plugin-twitter \
     gwibber-service-facebook \
@@ -96,7 +86,7 @@ remove_pacotes \
 sudo -E add-apt-repository -y ppa:webupd8team/sublime-text-2
 
 sudo apt-get -qq update
-instala_pacotes \
+$INSTALA_PACOTES \
     alien \
     build-essential \
     checkinstall \
@@ -123,7 +113,7 @@ instala_pacotes \
     zsh \
     ;
 
-instala_pacotes \
+$INSTALA_PACOTES \
     sublime-text \
     chromium-browser \
     wireshark \
@@ -137,7 +127,7 @@ chsh -s /usr/bin/zsh
 
 ## Instala o suporte a pt_BR
 ########################################################################
-instala_pacotes \
+$INSTALA_PACOTES \
     hunspell-en-ca \
     hyphen-en-us \
     language-pack-gnome-pt \
@@ -160,6 +150,7 @@ instala_pacotes \
     wbritish \
     wportuguese \
     ;
+
 
 ## Ajustes no Desktop
 ########################################################################

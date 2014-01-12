@@ -5,19 +5,8 @@
 ## rodando Ubuntu
 #######################################################################
 
-function instala_pacotes {
-    for pacote in $*
-    do
-        sudo apt-get -qq install $pacote
-    done
-}
-
-function remove_pacotes {
-    for pacote in $*
-    do
-        sudo apt-get -qq remove $pacote
-    done
-}
+INSTALA_PACOTES="sudo apt-get -qq install "
+REMOVE_PACOTES="sudo apt-get -qq remove "
 
 ## Inclui usuario no sudoers, sem senha
 ########################################################################
@@ -33,7 +22,7 @@ fi
 ## Instala pacotes para desenvolvimento
 ########################################################################
 sudo apt-get -qq update
-instala_pacotes \
+$INSTALA_PACOTES \
     alien \
     build-essential \
     checkinstall \
@@ -65,7 +54,7 @@ curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | 
 chsh -s /usr/bin/zsh
 
 # Reconfigura o idioma
-sudo apt-get install --reinstall locales && sudo dpkg-reconfigure locales
+$INSTALA_PACOTES --reinstall locales && sudo dpkg-reconfigure locales
 
 # Limpa cache do apt
 sudo apt-get clean

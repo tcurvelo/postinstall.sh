@@ -1,7 +1,10 @@
 #!/bin/bash
 
+INSTALA_PACOTES="sudo apt-get -qq install "
+REMOVE_PACOTES="sudo apt-get -qq remove "
+
 # Dropbox
-sudo apt-get -qq install \
+$INSTALA_PACOTES \
     python-gpgme
 wget -c \
     'https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_1.6.0_amd64.deb' \
@@ -15,14 +18,14 @@ wget -c \
 sudo dpkg -i gtalk.deb && rm gtalk.deb
 
 # Citrix
-sudo apt-get -qq install \
+$INSTALA_PACOTES \
     lib32asound2 \
     lib32z1 \
     nspluginwrapper \
     ;
 
 # Extras
-sudo apt-get -qq install
+$INSTALA_PACOTES
     browser-plugin-vlc \
     calibre \
     gimp \
