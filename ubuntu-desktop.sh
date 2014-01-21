@@ -82,8 +82,8 @@ $REMOVE_PACOTES \
 ## Instala pacotes para desenvolvimento
 ########################################################################
 
-# Repositorio para o Sublime Text 2
-sudo -E add-apt-repository -y ppa:webupd8team/sublime-text-2
+# Repositorio para o Sublime Text 3
+sudo -E add-apt-repository -y ppa:webupd8team/sublime-text-3
 
 sudo apt-get -qq update
 $INSTALA_PACOTES \
@@ -115,7 +115,7 @@ $INSTALA_PACOTES \
     ;
 
 $INSTALA_PACOTES \
-    sublime-text \
+    sublime-text-installer \
     chromium-browser \
     wireshark \
     xclip \
