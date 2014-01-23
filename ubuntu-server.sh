@@ -28,6 +28,7 @@ $INSTALA_PACOTES \
     checkinstall \
     curl \
     git \
+    git-extras \
     libaio1 \
     libjpeg-dev \
     libpcre3-dev \
