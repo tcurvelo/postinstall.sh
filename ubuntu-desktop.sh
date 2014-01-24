@@ -85,7 +85,11 @@ $REMOVE_PACOTES \
 # Repositorio para o Sublime Text 3
 sudo -E add-apt-repository -y ppa:webupd8team/sublime-text-3
 
+# Repositorio para o plugin do java
+sudo -E add-apt-repository -y ppa:webupd8team/java
+
 sudo apt-get -qq update
+
 $INSTALA_PACOTES \
     alien \
     build-essential \
@@ -117,6 +121,8 @@ $INSTALA_PACOTES \
 
 $INSTALA_PACOTES \
     sublime-text-installer \
+    oracle-jdk7-installer \
+    icedtea-7-plugin \
     chromium-browser \
     wireshark \
     xclip \
