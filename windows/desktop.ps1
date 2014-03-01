@@ -21,12 +21,14 @@ iex @"
 cinst avastfreeantivirus
 cinst ccleaner
 cinst dropbox
+cinst evernote5
 cinst Firefox
 cinst GoogleChrome
 cinst launchy
 cinst skype
 cinst steam
 cinst SublimeText3
+cinst utorrent
 cinst virtualbox
 cinst vlc
 "@
