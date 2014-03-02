@@ -88,7 +88,7 @@ sudo -E add-apt-repository -y ppa:webupd8team/sublime-text-3
 # Repositorio para o plugin do java
 sudo -E add-apt-repository -y ppa:webupd8team/java
 
-sudo apt-get -qq update 
+sudo apt-get -qq update
 sudo apt-get dist-upgrade
 
 
@@ -168,7 +168,7 @@ $INSTALA_PACOTES \
 dconf write /com/canonical/indicator/datetime/show-date true
 dconf write /com/canonical/indicator/datetime/show-day true
 dconf write /com/canonical/unity/lenses/remote-content-search '"none"'
-dconf write /com/canonical/unity/launcher/favorites '["application://nautilus.desktop", "application://chromium-browser.desktop", "application://sublime-text-2.desktop", "application://firefox.desktop", "unity://running-apps", "unity://expo-icon", "unity://devices"]'
+dconf write /com/canonical/unity/launcher/favorites '["application://chromium-browser.desktop", "application://firefox.desktop", "application://terminator.desktop", "application://sublime-text.desktop", "application://nautilus.desktop", "unity://running-apps", "unity://expo-icon", "unity://devices"]'
 
 # Cria diretorios para cache do buildout
 sudo mkdir -p /var/cache/buildout/eggs
