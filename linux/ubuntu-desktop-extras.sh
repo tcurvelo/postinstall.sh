@@ -25,7 +25,7 @@ $INSTALA_PACOTES \
     ;
 
 # Extras
-$INSTALA_PACOTES
+$INSTALA_PACOTES \
     browser-plugin-vlc \
     calibre \
     gimp \
