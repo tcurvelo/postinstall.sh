@@ -1,7 +1,7 @@
 #!/bin/bash
 
-INSTALA_PACOTES="sudo apt-get -qq install "
-REMOVE_PACOTES="sudo apt-get -qq remove "
+INSTALA_PACOTES="sudo apt-get -q -y install "
+REMOVE_PACOTES="sudo apt-get -q -y remove "
 
 # Dropbox
 $INSTALA_PACOTES \

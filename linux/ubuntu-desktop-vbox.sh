@@ -3,7 +3,7 @@
 ## Instala pacotes adicionais do VirtualBox
 ########################################################################
 
-sudo apt-get -qq install  \
+sudo apt-get -q -y install  \
     feh \
     i3wdm \
     virtualbox-guest-additions-iso \

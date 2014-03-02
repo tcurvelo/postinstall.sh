@@ -5,8 +5,8 @@
 ## rodando Ubuntu
 #######################################################################
 
-INSTALA_PACOTES="sudo apt-get -qq install "
-REMOVE_PACOTES="sudo apt-get -qq remove "
+INSTALA_PACOTES="sudo apt-get -q -y install "
+REMOVE_PACOTES="sudo apt-get -q -y remove "
 
 
 ## Inclui usuario no sudoers, sem senha
