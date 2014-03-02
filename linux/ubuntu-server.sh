@@ -22,6 +22,8 @@ fi
 ## Instala pacotes para desenvolvimento
 ########################################################################
 sudo apt-get -qq update
+sudo apt-get dist-upgrade
+
 $INSTALA_PACOTES \
     alien \
     build-essential \

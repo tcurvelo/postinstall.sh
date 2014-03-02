@@ -88,7 +88,9 @@ sudo -E add-apt-repository -y ppa:webupd8team/sublime-text-3
 # Repositorio para o plugin do java
 sudo -E add-apt-repository -y ppa:webupd8team/java
 
-sudo apt-get -qq update
+sudo apt-get -qq update 
+sudo apt-get dist-upgrade
+
 
 $INSTALA_PACOTES \
     alien \
@@ -113,6 +115,7 @@ $INSTALA_PACOTES \
     ranger \
     rubygems \
     subversion \
+    terminator \
     unixodbc-dev \
     vim \
     zlib1g-dev \
