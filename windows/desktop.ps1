@@ -51,3 +51,7 @@ $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
 Set-ItemProperty $key Hidden 1
 Set-ItemProperty $key HideFileExt 0
 Stop-Process -processname explorer
+
+# Disable Aero
+$key = 'HKCU:\Software\Microsoft\Windows\DWM'
+Set-ItemProperty $key Composition 0
