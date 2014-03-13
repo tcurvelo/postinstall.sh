@@ -20,51 +20,6 @@ then
 fi
 
 
-## Configura o proxy
-########################################################################
-AUTH_INPUT=$(zenity --username --password)
-
-if [ "$AUTH_INPUT" != "" ]
-then
-    LOGIN=$(echo $AUTH_INPUT | cut -d '|' -f1)
-    SENHA=$(echo $AUTH_INPUT | cut -d '|' -f2)
-    PROXY_HOST=10.13.10.250
-    PROXY_PORT=8080
-
-    PROXY_URL=http://$LOGIN:$SENHA@$PROXY_HOST:$PROXY_PORT/
-
-    #Configura proxy para apt e http
-    sudo -S bash -c 'cat > /etc/apt/apt.conf.d/00proxy' << EOF
-    Acquire{
-        ftp::Proxy "$PROXY_URL";
-        http::Proxy "$PROXY_URL";
-        https::Proxy "$PROXY_URL";
-    }
-EOF
-
-    sudo cat >> ~/.profile << EOF
-export ftp_proxy="$PROXY_URL";
-export http_proxy="$PROXY_URL";
-export https_proxy="$PROXY_URL";
-EOF
-
-    #Configura proxy para subversion
-    mkdir ~/.subversion/
-    cat > ~/.subversion/servers << EOF
-[global]
-http-proxy-host = $PROXY_HOST
-http-proxy-port = $PROXY_PORT
-http-proxy-username = $LOGIN
-http-proxy-password = $SENHA
-EOF
-
-    export ftp_proxy="$PROXY_URL";
-    export http_proxy="$PROXY_URL";
-    export https_proxy="$PROXY_URL";
-
-fi
-
-
 ## Apaga alguns pacotes não-essenciais
 ########################################################################
 $REMOVE_PACOTES \
