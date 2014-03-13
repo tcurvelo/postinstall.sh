@@ -3,6 +3,18 @@
 INSTALA_PACOTES="sudo apt-get -q -y install "
 REMOVE_PACOTES="sudo apt-get -q -y remove "
 
+# Extras
+$INSTALA_PACOTES \
+    browser-plugin-vlc \
+    calibre \
+    gimp \
+    inkscape \
+    transmission \
+    ubuntu-restricted-addons \
+    ubuntu-restricted-extras \
+    virtualbox \
+    ;
+
 # Dropbox
 $INSTALA_PACOTES \
     python-gpgme
@@ -24,13 +36,9 @@ $INSTALA_PACOTES \
     nspluginwrapper \
     ;
 
-# Extras
-$INSTALA_PACOTES \
-    browser-plugin-vlc \
-    calibre \
-    gimp \
-    inkscape \
-    transmission \
-    ubuntu-restricted-addons \
-    ubuntu-restricted-extras \
-    ;
+# Vagrant
+wget -c \
+    'https://dl.bintray.com/mitchellh/vagrant/vagrant_1.5.0_x86_64.deb' \
+    -O vagrant.deb
+sudo dpkg -i vagrant.deb && rm vagrant.deb
+
