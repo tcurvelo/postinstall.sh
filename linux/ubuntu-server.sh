@@ -60,12 +60,14 @@ curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | 
 chsh -s /usr/bin/zsh
 
 # Reconfigura o idioma
-$INSTALA_PACOTES --reinstall locales && sudo dpkg-reconfigure locales
+$INSTALA_PACOTES --reinstall locales \
+    && sudo localedef -v -c -i pt_BR -f UTF-8 pt_BR.UTF-8 \
+    && sudo dpkg-reconfigure locales \
+    ;
 
 # Limpa cache do apt
 sudo apt-get clean
 
-# Cria diretorios para cache do buildout
 # Cria diretorios para cache do buildout
 sudo mkdir -p /var/cache/buildout/eggs
 sudo mkdir -p /var/cache/buildout/dlcache
