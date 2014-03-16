@@ -39,6 +39,8 @@ $INSTALA_PACOTES \
     libxml2-dev \
     libxslt1-dev \
     mercurial \
+    nodejs-legacy \
+    npm \
     p7zip-full \
     python-dev \
     python-pip \
@@ -70,3 +72,11 @@ sudo mkdir -p /var/cache/buildout/dlcache
 sudo -E chown -R root.sudo /var/cache/buildout/ -R
 sudo -E chmod g+ws /var/cache/buildout/eggs
 sudo -E chmod g+ws /var/cache/buildout/dlcache
+
+# Instala tty.js
+mkdir -p ~/.bin/
+cd ~/.bin/ \
+    && npm install tty.js \
+    && cd ~ \
+    ;
+
