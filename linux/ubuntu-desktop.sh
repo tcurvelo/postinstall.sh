@@ -57,6 +57,7 @@ $INSTALA_PACOTES \
     libaio1 \
     libjpeg-dev \
     libpcre3-dev \
+    libreadline-dev \
     libsasl2-dev \
     libssl-dev \
     libxml2-dev \
