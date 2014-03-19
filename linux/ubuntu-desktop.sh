@@ -127,11 +127,10 @@ dconf write /com/canonical/unity/lenses/remote-content-search '"none"'
 dconf write /com/canonical/unity/launcher/favorites '["application://chromium-browser.desktop", "application://firefox.desktop", "application://terminator.desktop", "application://sublime-text.desktop", "application://nautilus.desktop", "unity://running-apps", "unity://expo-icon", "unity://devices"]'
 
 # Cria diretorios para cache do buildout
-sudo mkdir -p /var/cache/buildout/eggs
-sudo mkdir -p /var/cache/buildout/dlcache
-sudo -E chown -R root.sudo /var/cache/buildout/ -R
-sudo -E chmod g+ws /var/cache/buildout/eggs
-sudo -E chmod g+ws /var/cache/buildout/dlcache
+BUILDOUT_DIR=/var/cache/buildout
+sudo mkdir -p $BUILDOUT_DIR/{eggs,dlcache}
+sudo -E chown -R root.sudo $BUILDOUT_DIR
+sudo -E chmod g+rws -R $BUILDOUT_DIR 
 
 # Limpa cache do apt
 sudo apt-get clean
