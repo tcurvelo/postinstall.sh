@@ -20,10 +20,12 @@ $env:Path += ";%systemdrive%\chocolatey\bin"
 iex @"
 cinst avastfreeantivirus
 cinst ccleaner
+cinst cdburnerxp
 cinst dropbox
 cinst evernote5
 cinst Firefox
 cinst GoogleChrome
+cinst handbrake
 cinst launchy
 cinst skype
 cinst steam
