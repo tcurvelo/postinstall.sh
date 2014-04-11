@@ -88,9 +88,10 @@ $INSTALA_PACOTES \
     ;
 
 # Instala oh-my-zsh
-curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
-chsh -s /usr/bin/zsh
-
+if [ ! -d ~/.oh-my-zsh ]; then
+    curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
+    chsh -s /usr/bin/zsh
+fi
 
 ## Instala o suporte a pt_BR
 ########################################################################
@@ -136,5 +137,8 @@ sudo -E chmod g+rws -R $BUILDOUT_DIR
 sudo apt-get clean
 
 # Cria chave ssh
-ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa -q
-ssh-add
+if [ ! -f ~/.ssh/id_rsa.pub ]; then
+    ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa -q
+    ssh-add
+fi
+

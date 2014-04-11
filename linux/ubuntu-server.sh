@@ -56,8 +56,10 @@ $INSTALA_PACOTES \
     ;
 
 # Instala oh-my-zsh
-curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
-chsh -s /usr/bin/zsh
+if [ ! -d ~/.oh-my-zsh ]; then 
+    curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
+    chsh -s /usr/bin/zsh
+fi
 
 # Reconfigura o idioma
 $INSTALA_PACOTES --reinstall locales \
