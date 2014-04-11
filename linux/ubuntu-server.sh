@@ -78,8 +78,8 @@ sudo -E chmod g+ws /var/cache/buildout/eggs
 sudo -E chmod g+ws /var/cache/buildout/dlcache
 
 # Instala tty.js
-mkdir -p ~/.bin/
-cd ~/.bin/ \
+mkdir -p ~/bin/
+cd ~/bin/ \
     && npm install tty.js \
     && cd ~ \
     ;
