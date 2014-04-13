@@ -55,6 +55,7 @@ $INSTALA_PACOTES \
     git \
     git-extras \
     libaio1 \
+    libffi-dev \
     libjpeg-dev \
     libpcre3-dev \
     libreadline-dev \
@@ -64,6 +65,7 @@ $INSTALA_PACOTES \
     libxslt1-dev \
     mercurial \
     p7zip-full \
+    python3-dev \
     python-dev \
     python-pip \
     python-setuptools \

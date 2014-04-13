@@ -32,6 +32,7 @@ $INSTALA_PACOTES \
     git \
     git-extras \
     libaio1 \
+    libffi-dev \
     libjpeg-dev \
     libpcre3-dev \
     libsasl2-dev \
@@ -42,6 +43,7 @@ $INSTALA_PACOTES \
     nodejs-legacy \
     npm \
     p7zip-full \
+    python3-dev \
     python-dev \
     python-pip \
     python-setuptools \
