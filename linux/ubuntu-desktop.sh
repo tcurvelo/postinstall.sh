@@ -35,13 +35,13 @@ $REMOVE_PACOTES \
 ## Instala pacotes para desenvolvimento
 ########################################################################
 
-# Repositorio para o Sublime Text 3
-sudo -E add-apt-repository -y ppa:webupd8team/sublime-text-3
+# Repositorios para o Sublime Text 3 e Java
+for repo in "webupd8team/sublime-text-3" "webupd8team/java"; do
+    ls /etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')* || \
+            sudo -E add-apt-repository -y ppa:$repo
+done
 
-# Repositorio para o plugin do java
-sudo -E add-apt-repository -y ppa:webupd8team/java
-
-sudo apt-get -qq update
+sudo apt-get -q -q update
 sudo apt-get dist-upgrade
 
 
