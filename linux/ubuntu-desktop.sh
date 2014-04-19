@@ -5,7 +5,7 @@
 ## rodando Ubuntu
 #######################################################################
 
-INSTALA_PACOTES="sudo apt-get -q -y install "
+INSTALA_PACOTES="sudo apt-get -q -y --ignore-missing install "
 REMOVE_PACOTES="sudo apt-get -q -y remove "
 
 
@@ -25,8 +25,6 @@ fi
 $REMOVE_PACOTES \
     account-plugin-facebook \
     account-plugin-twitter \
-    gwibber-service-facebook \
-    gwibber-service-twitter \
     unity-lens-music \
     unity-lens-photos \
     unity-lens-shopping \
@@ -65,13 +63,12 @@ $INSTALA_PACOTES \
     libxslt1-dev \
     mercurial \
     p7zip-full \
-    python3-dev \
     python-dev \
     python-pip \
     python-setuptools \
     python-virtualenv \
+    python3-dev \
     ranger \
-    rubygems \
     subversion \
     terminator \
     unixodbc-dev \
@@ -86,7 +83,6 @@ $INSTALA_PACOTES \
     icedtea-7-plugin \
     chromium-browser \
     wireshark \
-    xclip \
     ;
 
 # Instala oh-my-zsh
@@ -133,7 +129,7 @@ dconf write /com/canonical/unity/launcher/favorites '["application://chromium-br
 BUILDOUT_DIR=/var/cache/buildout
 sudo mkdir -p $BUILDOUT_DIR/{eggs,dlcache}
 sudo -E chown -R root.sudo $BUILDOUT_DIR
-sudo -E chmod g+rws -R $BUILDOUT_DIR 
+sudo -E chmod g+rws -R $BUILDOUT_DIR
 
 # Limpa cache do apt
 sudo apt-get clean
