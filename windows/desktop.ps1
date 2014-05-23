@@ -58,6 +58,15 @@ Set-ItemProperty $key Hidden 1
 Set-ItemProperty $key HideFileExt 0
 Stop-Process -processname explorer
 
+# Disable some startup programs
+$key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' 
+Remove-ItemProperty $key Skype
+Remove-ItemProperty $key uTorrent
+
+# Disable Java Update
+$key = 'HKLM:\SOFTWARE\Wow6432Node\JavaSoft\Java Update\Policy'
+Set-ItemProperty $key EnableJavaUpdate 0
+
 # Disable Aero
 $key = 'HKCU:\Software\Microsoft\Windows\DWM'
 Set-ItemProperty $key Composition 0
