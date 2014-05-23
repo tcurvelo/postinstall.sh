@@ -19,14 +19,18 @@ $env:Path += ";%systemdrive%\chocolatey\bin"
 
 iex @"
 cinst avastfreeantivirus
+cinst calibre
 cinst ccleaner
 cinst cdburnerxp
 cinst dropbox
 cinst evernote5
 cinst Firefox
+cinst gimp
 cinst GoogleChrome
+cinst InkScape
 cinst handbrake
 cinst launchy
+cinst libreoffice
 cinst skype
 cinst steam
 cinst SublimeText3
