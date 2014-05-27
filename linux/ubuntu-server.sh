@@ -5,8 +5,8 @@
 ## rodando Ubuntu
 #######################################################################
 
-INSTALA_PACOTES="sudo apt-get -q -y install "
-REMOVE_PACOTES="sudo apt-get -q -y remove "
+INSTALA_PACOTES="sudo apt-get  -y install "
+REMOVE_PACOTES="sudo apt-get  -y remove "
 
 ## Inclui usuario no sudoers, sem senha
 ########################################################################
@@ -21,7 +21,7 @@ fi
 
 ## Instala pacotes para desenvolvimento
 ########################################################################
-sudo apt-get -qq update
+sudo apt-get update
 sudo apt-get dist-upgrade
 
 $INSTALA_PACOTES \
@@ -49,7 +49,6 @@ $INSTALA_PACOTES \
     python-setuptools \
     python-virtualenv \
     ranger \
-    rubygems \
     subversion \
     unixodbc-dev \
     vim \
