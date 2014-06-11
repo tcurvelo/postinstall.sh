@@ -43,6 +43,7 @@ $INSTALA_PACOTES \
     nodejs-legacy \
     npm \
     p7zip-full \
+    poppler-utils \
     python3-dev \
     python-dev \
     python-pip \
@@ -57,7 +58,7 @@ $INSTALA_PACOTES \
     ;
 
 # Instala oh-my-zsh
-if [ ! -d ~/.oh-my-zsh ]; then 
+if [ ! -d ~/.oh-my-zsh ]; then
     curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
     chsh -s /usr/bin/zsh
 fi

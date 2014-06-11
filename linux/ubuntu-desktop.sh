@@ -63,6 +63,7 @@ $INSTALA_PACOTES \
     libxslt1-dev \
     mercurial \
     p7zip-full \
+    poppler-utils \
     python-dev \
     python-pip \
     python-setuptools \
