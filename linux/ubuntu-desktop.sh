@@ -4,9 +4,22 @@
 ## Script de pos-instalacao para uma maquina de de desenvolvimento
 ## rodando Ubuntu
 #######################################################################
+function INSTALL_PKGS {
+    sudo apt-get -y --ignore-missing install $*
+}
 
-INSTALA_PACOTES="sudo apt-get -q -y --ignore-missing install "
-REMOVE_PACOTES="sudo apt-get -q -y remove "
+function REMOVE_PKGS {
+    sudo apt-get -y remove $*
+}
+
+function UPDATE {
+    last_update=$(stat -c %X /var/lib/apt/lists/)
+    last_repo_added=$(stat -c %Y /etc/apt/sources.list* | sort -n -r | head -1)
+    now=$(date +%s)
+    if [ $last_update -lt $last_repo_added ] || [ $(($now-$last_update)) -gt 3600 ] ; then
+        sudo apt-get -y update
+    fi
+}
 
 
 ## Inclui usuario no sudoers, sem senha
@@ -22,7 +35,7 @@ fi
 
 ## Apaga alguns pacotes não-essenciais
 ########################################################################
-$REMOVE_PACOTES \
+REMOVE_PKGS \
     account-plugin-facebook \
     account-plugin-twitter \
     unity-lens-music \
@@ -37,15 +50,15 @@ $REMOVE_PACOTES \
 
 # Repositorios para o Sublime Text 3 e Java
 for repo in "webupd8team/sublime-text-3" "webupd8team/java"; do
-    ls /etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')* || \
-            sudo -E add-apt-repository -y ppa:$repo
+    [ -f "/etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')-$(lsb_release -cs).list" ] || \
+        sudo -E add-apt-repository -y $repo
 done
 
-sudo apt-get -q -q update
+UPDATE
 sudo apt-get dist-upgrade
 
 
-$INSTALA_PACOTES \
+INSTALL_PKGS \
     alien \
     build-essential \
     checkinstall \
@@ -78,7 +91,7 @@ $INSTALA_PACOTES \
     zsh \
     ;
 
-$INSTALA_PACOTES \
+INSTALL_PKGS \
     sublime-text-installer \
     oracle-jdk7-installer \
     icedtea-7-plugin \
@@ -86,15 +99,10 @@ $INSTALA_PACOTES \
     wireshark \
     ;
 
-# Instala oh-my-zsh
-if [ ! -d ~/.oh-my-zsh ]; then
-    curl -L https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh | bash
-    chsh -s /usr/bin/zsh
-fi
 
 ## Instala o suporte a pt_BR
 ########################################################################
-$INSTALA_PACOTES \
+INSTALL_PKGS \
     hunspell-en-ca \
     hyphen-en-us \
     language-pack-gnome-pt \
@@ -130,14 +138,15 @@ dconf write /com/canonical/unity/launcher/favorites '["application://chromium-br
 BUILDOUT_DIR=/var/cache/buildout
 sudo mkdir -p $BUILDOUT_DIR/{eggs,dlcache}
 sudo -E chown -R root.sudo $BUILDOUT_DIR
-sudo -E chmod g+rws -R $BUILDOUT_DIR
+sudo -E chmod a+rws -R $BUILDOUT_DIR
 
 # Limpa cache do apt
 sudo apt-get clean
 
 # Cria chave ssh
 if [ ! -f ~/.ssh/id_rsa.pub ]; then
+    mkdir -p ~/.ssh
     ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa -q
+    eval $(ssh-agent -s)
     ssh-add
 fi
-
