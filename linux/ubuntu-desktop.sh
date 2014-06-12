@@ -87,9 +87,11 @@ INSTALL_PKGS \
     terminator \
     unixodbc-dev \
     vim \
+    vim-youcompleteme \
     zlib1g-dev \
     zsh \
     ;
+vim-addons install youcompleteme
 
 INSTALL_PKGS \
     sublime-text-installer \
