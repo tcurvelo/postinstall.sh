@@ -21,18 +21,6 @@ function UPDATE {
     fi
 }
 
-
-## Inclui usuario no sudoers, sem senha
-########################################################################
-SUDOER_LINE="$USER ALL=(ALL) NOPASSWD:ALL"
-sudo grep "$SUDOER_LINE" /etc/sudoers.d/$USER > /dev/null 2> /dev/null
-if [ $? -ne 0 ]
-then
-    sudo echo $SUDOER_LINE | sudo tee -a /etc/sudoers.d/$USER > /dev/null
-    sudo chmod 0400 /etc/sudoers.d/$USER
-fi
-
-
 ## Apaga alguns pacotes não-essenciais
 ########################################################################
 REMOVE_PKGS \
@@ -44,7 +32,6 @@ REMOVE_PKGS \
     unity-lens-video \
     ;
 
-
 ## Instala pacotes para desenvolvimento
 ########################################################################
 
@@ -55,43 +42,6 @@ for repo in "webupd8team/sublime-text-3" "webupd8team/java"; do
 done
 
 UPDATE
-sudo apt-get dist-upgrade
-
-
-INSTALL_PKGS \
-    alien \
-    build-essential \
-    checkinstall \
-    curl \
-    git \
-    git-extras \
-    libaio1 \
-    libffi-dev \
-    libjpeg-dev \
-    libpcre3-dev \
-    libreadline-dev \
-    libsasl2-dev \
-    libssl-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    mercurial \
-    p7zip-full \
-    poppler-utils \
-    python-dev \
-    python-pip \
-    python-setuptools \
-    python-virtualenv \
-    python3-dev \
-    ranger \
-    subversion \
-    terminator \
-    unixodbc-dev \
-    vim \
-    vim-youcompleteme \
-    zlib1g-dev \
-    zsh \
-    ;
-vim-addons install youcompleteme
 
 INSTALL_PKGS \
     sublime-text-installer \
@@ -100,7 +50,6 @@ INSTALL_PKGS \
     chromium-browser \
     wireshark \
     ;
-
 
 ## Instala o suporte a pt_BR
 ########################################################################
@@ -128,7 +77,6 @@ INSTALL_PKGS \
     wportuguese \
     ;
 
-
 ## Ajustes no Desktop
 ########################################################################
 dconf write /com/canonical/indicator/datetime/show-date true
@@ -136,19 +84,6 @@ dconf write /com/canonical/indicator/datetime/show-day true
 dconf write /com/canonical/unity/lenses/remote-content-search '"none"'
 dconf write /com/canonical/unity/launcher/favorites '["application://chromium-browser.desktop", "application://firefox.desktop", "application://terminator.desktop", "application://sublime-text.desktop", "application://nautilus.desktop", "unity://running-apps", "unity://expo-icon", "unity://devices"]'
 
-# Cria diretorios para cache do buildout
-BUILDOUT_DIR=/var/cache/buildout
-sudo mkdir -p $BUILDOUT_DIR/{eggs,dlcache}
-sudo -E chown -R root.sudo $BUILDOUT_DIR
-sudo -E chmod a+rws -R $BUILDOUT_DIR
-
 # Limpa cache do apt
 sudo apt-get clean
 
-# Cria chave ssh
-if [ ! -f ~/.ssh/id_rsa.pub ]; then
-    mkdir -p ~/.ssh
-    ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa -q
-    eval $(ssh-agent -s)
-    ssh-add
-fi

@@ -1,10 +1,25 @@
 #!/bin/bash
+function INSTALL_PKGS {
+    sudo apt-get -y --ignore-missing install $*
+}
 
-INSTALA_PACOTES="sudo apt-get -q -y install "
-REMOVE_PACOTES="sudo apt-get -q -y remove "
+function REMOVE_PKGS {
+    sudo apt-get -y remove $*
+}
+
+function UPDATE {
+    last_update=$(stat -c %X /var/lib/apt/lists/)
+    last_repo_added=$(stat -c %Y /etc/apt/sources.list* | sort -n -r | head -1)
+    now=$(date +%s)
+    if [ $last_update -lt $last_repo_added ] || [ $(($now-$last_update)) -gt 3600 ] ; then
+        sudo apt-get -y update
+    fi
+}
+
+UPDATE
 
 # Extras
-$INSTALA_PACOTES \
+INSTALL_PKGS \
     browser-plugin-vlc \
     calibre \
     gimp \
@@ -16,7 +31,7 @@ $INSTALA_PACOTES \
     ;
 
 # Dropbox
-$INSTALA_PACOTES \
+INSTALL_PKGS \
     python-gpgme
 wget -c \
     'https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_1.6.0_amd64.deb' \
