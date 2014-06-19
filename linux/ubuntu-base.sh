@@ -52,6 +52,8 @@ INSTALL_PKGS \
     libxml2-dev \
     libxslt1-dev \
     mercurial \
+    nodejs \
+    npm \
     p7zip-full \
     poppler-utils \
     python-dev \
@@ -68,8 +70,12 @@ INSTALL_PKGS \
     zlib1g-dev \
     zsh \
     ;
-vim-addons install youcompleteme
 
+vim-addons install youcompleteme
+sudo ln -sf /usr/bin/nodejs /usr/bin/node
+
+sudo npm install -g \
+  jshint
 
 ## Misc
 ########################################################################
