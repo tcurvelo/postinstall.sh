@@ -36,7 +36,7 @@ REMOVE_PKGS \
 ########################################################################
 
 # Repositorios para o Sublime Text 3 e Java
-for repo in "webupd8team/sublime-text-3" "webupd8team/java"; do
+for repo in "webupd8team/sublime-text-3" "webupd8team/java" "webupd8team/themes"; do
     [ -f "/etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')-$(lsb_release -cs).list" ] || \
         sudo -E add-apt-repository -y $repo
 done
@@ -44,10 +44,11 @@ done
 UPDATE
 
 INSTALL_PKGS \
-    sublime-text-installer \
-    oracle-jdk7-installer \
-    icedtea-7-plugin \
     chromium-browser \
+    faenza-icon-theme \
+    icedtea-7-plugin \
+    oracle-jdk7-installer \
+    sublime-text-installer \
     wireshark \
     ;
 
