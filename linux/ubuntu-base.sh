@@ -74,7 +74,9 @@ INSTALL_PKGS \
 sudo ln -sf /usr/bin/nodejs /usr/bin/node
 
 sudo -E npm install -g \
-  jshint
+  jshint \
+  jsctags \
+  ;
 
 ## Misc
 ########################################################################
