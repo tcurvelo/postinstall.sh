@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ########################################################################
-## Postinstall script for a ubuntu box
+## Postinstall base script for a ubuntu box
 ########################################################################
 function INSTALL_PKGS {
     sudo apt-get -y --ignore-missing install $*
@@ -15,8 +15,9 @@ function UPDATE {
     last_update=$(stat -c %X /var/lib/apt/lists/)
     last_repo_added=$(stat -c %Y /etc/apt/sources.list* | sort -n -r | head -1)
     now=$(date +%s)
-    if [ $last_update -lt $last_repo_added ] || [ $(($now-$last_update)) -gt 3600 ] ; then
-        sudo apt-get -y update
+    if [ $last_update -lt $last_repo_added ] || \
+       [ $(($now-$last_update)) -gt 3600 ] ; then
+           sudo apt-get -y update
     fi
 }
 
@@ -66,15 +67,13 @@ INSTALL_PKGS \
     terminator \
     unixodbc-dev \
     vim \
-    vim-youcompleteme \
     zlib1g-dev \
     zsh \
     ;
 
-vim-addons install youcompleteme
 sudo ln -sf /usr/bin/nodejs /usr/bin/node
 
-sudo npm install -g \
+sudo -E npm install -g \
   jshint
 
 ## Misc
@@ -101,3 +100,4 @@ fi
 
 ## Clean cache
 sudo apt-get clean
+
