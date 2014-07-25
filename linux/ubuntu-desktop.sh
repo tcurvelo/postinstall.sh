@@ -1,9 +1,8 @@
 #!/bin/bash
 
-#######
-## Script de pos-instalacao para uma maquina de de desenvolvimento
-## rodando Ubuntu
-#######################################################################
+########################################################################
+## Postinstall script for a ubuntu desktop box
+########################################################################
 function INSTALL_PKGS {
     sudo apt-get -y --ignore-missing install $*
 }
@@ -16,12 +15,13 @@ function UPDATE {
     last_update=$(stat -c %X /var/lib/apt/lists/)
     last_repo_added=$(stat -c %Y /etc/apt/sources.list* | sort -n -r | head -1)
     now=$(date +%s)
-    if [ $last_update -lt $last_repo_added ] || [ $(($now-$last_update)) -gt 3600 ] ; then
+    if [ $last_update -lt $last_repo_added ] || \
+       [ $(($now-$last_update)) -gt 3600 ] ; then
         sudo apt-get -y update
     fi
 }
 
-## Apaga alguns pacotes não-essenciais
+## Drop some unnecessary pkgs
 ########################################################################
 REMOVE_PKGS \
     account-plugin-facebook \
@@ -32,11 +32,13 @@ REMOVE_PKGS \
     unity-lens-video \
     ;
 
-## Instala pacotes para desenvolvimento
+## Install some extra pkgs
 ########################################################################
-
-# Repositorios para o Sublime Text 3 e Java
-for repo in "webupd8team/sublime-text-3" "webupd8team/java" "webupd8team/themes"; do
+# Repos for Sublime, Java & faenza icons
+for repo in \
+  "webupd8team/sublime-text-3" \
+  "webupd8team/java" \
+  "webupd8team/themes"; do
     [ -f "/etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')-$(lsb_release -cs).list" ] || \
         sudo -E add-apt-repository -y $repo
 done
@@ -49,10 +51,11 @@ INSTALL_PKGS \
     icedtea-7-plugin \
     oracle-jdk7-installer \
     sublime-text-installer \
+    vim-gtk \
     wireshark \
     ;
 
-## Instala o suporte a pt_BR
+## Installs pt_BR support
 ########################################################################
 INSTALL_PKGS \
     hunspell-en-ca \
@@ -78,13 +81,13 @@ INSTALL_PKGS \
     wportuguese \
     ;
 
-## Ajustes no Desktop
+## Desktop tweaks
 ########################################################################
 dconf write /com/canonical/indicator/datetime/show-date true
 dconf write /com/canonical/indicator/datetime/show-day true
 dconf write /com/canonical/unity/lenses/remote-content-search '"none"'
 dconf write /com/canonical/unity/launcher/favorites '["application://chromium-browser.desktop", "application://firefox.desktop", "application://terminator.desktop", "application://sublime-text.desktop", "application://nautilus.desktop", "unity://running-apps", "unity://expo-icon", "unity://devices"]'
 
-# Limpa cache do apt
+# Cleanup
 sudo apt-get clean
 
