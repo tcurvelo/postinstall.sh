@@ -46,6 +46,7 @@ INSTALL_PKGS \
     libaio1 \
     libffi-dev \
     libjpeg-dev \
+    libldap2-dev \
     libpcre3-dev \
     libreadline-dev \
     libsasl2-dev \
