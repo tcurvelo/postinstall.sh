@@ -51,6 +51,7 @@ INSTALL_PKGS \
     icedtea-7-plugin \
     oracle-jdk7-installer \
     sublime-text-installer \
+    terminator \
     vim-gtk \
     wireshark \
     ;

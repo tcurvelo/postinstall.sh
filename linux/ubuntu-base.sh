@@ -65,7 +65,6 @@ INSTALL_PKGS \
     python3-dev \
     ranger \
     subversion \
-    terminator \
     unixodbc-dev \
     vim \
     zlib1g-dev \
