@@ -75,6 +75,7 @@ INSTALL_PKGS \
 sudo ln -sf /usr/bin/nodejs /usr/bin/node
 
 sudo -E npm install -g \
+  grunt-cli \
   jshint \
   jsctags \
   ;
