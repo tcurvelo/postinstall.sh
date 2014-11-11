@@ -40,7 +40,7 @@ for repo in \
   "webupd8team/java" \
   "webupd8team/themes"; do
     [ -f "/etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')-$(lsb_release -cs).list" ] || \
-        sudo -E add-apt-repository -y $repo
+        sudo -E add-apt-repository -y ppa:$repo
 done
 
 UPDATE
