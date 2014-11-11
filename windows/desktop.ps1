@@ -18,25 +18,25 @@ $env:Path += ";%systemdrive%\chocolatey\bin"
 ########################################################################
 
 iex @"
-cinst avastfreeantivirus
-cinst calibre
-cinst ccleaner
-cinst cdburnerxp
-cinst dropbox
-cinst evernote5
-cinst Firefox
-cinst gimp
-cinst GoogleChrome
-cinst InkScape
-cinst handbrake
-cinst launchy
-cinst libreoffice
-cinst skype
-cinst steam
-cinst SublimeText3
-cinst utorrent
-cinst virtualbox
-cinst vlc
+choco install avastfreeantivirus
+choco install calibre
+choco install ccleaner
+choco install cdburnerxp
+choco install dropbox
+choco install evernote5
+choco install Firefox
+choco install gimp
+choco install GoogleChrome
+choco install InkScape
+choco install handbrake
+choco install launchy
+choco install libreoffice
+choco install skype
+choco install steam
+choco install SublimeText3
+choco install utorrent
+choco install virtualbox
+choco install vlc
 "@
 
 ## Install cygwin
