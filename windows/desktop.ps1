@@ -11,7 +11,7 @@ $downloader = new-object System.Net.WebClient
 ## Install chocolatey
 ########################################################################
 iex $downloader.DownloadString("https://chocolatey.org/install.ps1")
-$env:Path += ";%systemdrive%\chocolatey\bin"
+$env:Path += ";%ALLUSERSPROFILE%\chocolatey\bin"
 
 
 ## Install packages from chocolatey gallery
