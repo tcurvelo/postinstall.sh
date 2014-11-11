@@ -35,6 +35,7 @@ choco install skype
 choco install steam
 choco install SublimeText3
 choco install utorrent
+choco install vagrant
 choco install virtualbox
 choco install vlc
 "@
