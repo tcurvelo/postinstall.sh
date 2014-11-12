@@ -40,6 +40,7 @@ INSTALL_PKGS \
     alien \
     build-essential \
     checkinstall \
+    cmake \
     curl \
     git \
     git-extras \
@@ -48,6 +49,7 @@ INSTALL_PKGS \
     libjpeg-dev \
     libldap2-dev \
     libpcre3-dev \
+    libpq-dev \
     libreadline-dev \
     libsasl2-dev \
     libssl-dev \
