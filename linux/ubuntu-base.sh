@@ -33,6 +33,12 @@ fi
 
 ## Installs devs pkgs
 ########################################################################
+for repo in \
+  "chris-lea/node.js"; do
+    [ -f "/etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')-$(lsb_release -cs).list" ] || \
+        sudo -E add-apt-repository -y ppa:$repo
+done
+
 UPDATE
 sudo apt-get dist-upgrade
 
