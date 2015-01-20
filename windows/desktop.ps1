@@ -25,15 +25,11 @@ choco install cdburnerxp
 choco install dropbox
 choco install evernote5
 choco install Firefox
-choco install gimp
 choco install GoogleChrome
-choco install InkScape
 choco install handbrake
 choco install launchy
-choco install libreoffice
 choco install skype
 choco install steam
-choco install SublimeText3
 choco install utorrent
 choco install vagrant
 choco install virtualbox
