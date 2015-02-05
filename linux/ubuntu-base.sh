@@ -48,6 +48,7 @@ INSTALL_PKGS \
     checkinstall \
     cmake \
     curl \
+    exuberant-ctags \
     git \
     git-extras \
     libaio1 \
