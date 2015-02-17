@@ -68,6 +68,7 @@ INSTALL_PKGS \
     p7zip-full \
     poppler-utils \
     python-dev \
+    python-flake8 \
     python-pip \
     python-setuptools \
     python-virtualenv \
