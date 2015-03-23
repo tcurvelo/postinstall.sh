@@ -31,7 +31,6 @@ choco install launchy
 choco install skype
 choco install steam
 choco install utorrent
-choco install vagrant
 choco install virtualbox
 choco install vlc
 "@
