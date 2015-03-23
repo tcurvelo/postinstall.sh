@@ -35,12 +35,6 @@ choco install virtualbox
 choco install vlc
 "@
 
-## Install cygwin
-########################################################################
-$downloader.DownloadFile("http://cygwin.com/setup-x86_64.exe", "cygwin.exe")
-iex "./cygwin.exe --disable-buggy-antivirus --no-admin --no-desktop --quiet-mode --root C:\cygwin\ --site http://linorg.usp.br/cygwin --packages git,mintty,openssh,python,ruby,zsh"
-
-
 ## Install citrix receiver
 ########################################################################
 $downloader.DownloadFile("http://downloadplugins.citrix.com.edgesuite.net/Windows/CitrixReceiverWeb.exe", "citrix.exe")
