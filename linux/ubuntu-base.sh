@@ -64,7 +64,6 @@ INSTALL_PKGS \
     libxslt1-dev \
     mercurial \
     nodejs \
-    npm \
     p7zip-full \
     poppler-utils \
     python-dev \
