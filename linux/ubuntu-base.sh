@@ -72,6 +72,7 @@ INSTALL_PKGS \
     python-virtualenv \
     python3-dev \
     ranger \
+    silversearcher-ag \
     vim \
     zlib1g-dev \
     zsh \
