@@ -62,7 +62,6 @@ INSTALL_PKGS \
     libssl-dev \
     libxml2-dev \
     libxslt1-dev \
-    mercurial \
     nodejs \
     p7zip-full \
     poppler-utils \
@@ -73,8 +72,6 @@ INSTALL_PKGS \
     python-virtualenv \
     python3-dev \
     ranger \
-    subversion \
-    unixodbc-dev \
     vim \
     zlib1g-dev \
     zsh \
