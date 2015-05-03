@@ -4,11 +4,11 @@
 ## Postinstall base script for a ubuntu box
 ########################################################################
 function INSTALL_PKGS {
-    sudo apt-get -y --ignore-missing install $*
+    sudo apt-get --yes --ignore-missing install $*
 }
 
 function REMOVE_PKGS {
-    sudo apt-get -y remove $*
+    sudo apt-get --yes remove $*
 }
 
 function UPDATE {
@@ -25,9 +25,8 @@ function UPDATE {
 ########################################################################
 SUDOER_LINE="$USER ALL=(ALL) NOPASSWD:ALL"
 sudo grep "$SUDOER_LINE" /etc/sudoers.d/$USER > /dev/null 2> /dev/null
-if [ $? -ne 0 ]
-then
-    sudo echo $SUDOER_LINE | sudo tee -a /etc/sudoers.d/$USER > /dev/null
+if [ $? -ne 0 ]; then
+    echo $SUDOER_LINE | sudo tee -a /etc/sudoers.d/$USER > /dev/null
     sudo chmod 0400 /etc/sudoers.d/$USER
 fi
 
@@ -40,7 +39,7 @@ for repo in \
 done
 
 UPDATE
-sudo apt-get dist-upgrade
+sudo apt-get dist-upgrade --yes
 
 INSTALL_PKGS \
     alien \
@@ -110,4 +109,3 @@ fi
 
 ## Clean cache
 sudo apt-get clean
-

@@ -4,11 +4,11 @@
 ## Postinstall script for a ubuntu desktop box
 ########################################################################
 function INSTALL_PKGS {
-    sudo apt-get -y --ignore-missing install $*
+    sudo apt-get --yes --ignore-missing install $*
 }
 
 function REMOVE_PKGS {
-    sudo apt-get -y remove $*
+    sudo apt-get --yes remove $*
 }
 
 function UPDATE {
@@ -17,7 +17,7 @@ function UPDATE {
     now=$(date +%s)
     if [ $last_update -lt $last_repo_added ] || \
        [ $(($now-$last_update)) -gt 3600 ] ; then
-        sudo apt-get -y update
+        sudo apt-get --yes update
     fi
 }
 
