@@ -72,6 +72,7 @@ INSTALL_PKGS \
     python3-dev \
     ranger \
     silversearcher-ag \
+    tmux \
     vim \
     zlib1g-dev \
     zsh \
