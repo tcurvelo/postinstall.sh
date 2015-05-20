@@ -34,11 +34,11 @@ REMOVE_PKGS \
 
 ## Install some extra pkgs
 ########################################################################
-# Repos for Sublime, Java & faenza icons
+# Repos for Java & faenza icons
 for repo in \
-  "webupd8team/sublime-text-3" \
   "webupd8team/java" \
-  "webupd8team/themes"; do
+  "webupd8team/themes" \
+  ; do
     [ -f "/etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')-$(lsb_release -cs).list" ] || \
         sudo -E add-apt-repository -y ppa:$repo
 done
@@ -50,7 +50,6 @@ INSTALL_PKGS \
     faenza-icon-theme \
     icedtea-7-plugin \
     oracle-jdk7-installer \
-    sublime-text-installer \
     terminator \
     vim-gtk \
     wireshark \
@@ -91,4 +90,3 @@ dconf write /com/canonical/unity/launcher/favorites '["application://chromium-br
 
 # Cleanup
 sudo apt-get clean
-

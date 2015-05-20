@@ -16,6 +16,14 @@ function UPDATE {
     fi
 }
 
+# Repos for Sublime
+for repo in \
+  "webupd8team/sublime-text-3" \
+  ; do
+    [ -f "/etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')-$(lsb_release -cs).list" ] || \
+        sudo -E add-apt-repository -y ppa:$repo
+done
+
 UPDATE
 
 # Extras
@@ -24,6 +32,7 @@ INSTALL_PKGS \
     calibre \
     gimp \
     inkscape \
+    sublime-text-installer \
     transmission \
     ubuntu-restricted-addons \
     ubuntu-restricted-extras \
