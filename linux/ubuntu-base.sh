@@ -90,6 +90,13 @@ sudo -E npm install -g \
 ########################################################################
 ## Fix locale
 INSTALL_PKGS --reinstall locales \
+   && sudo locale-gen en_US \
+   && sudo locale-gen en_US.iso88591 \
+   && sudo locale-gen en_US.utf8 \
+   && sudo locale-gen pt_BR \
+   && sudo locale-gen pt_BR.iso88591 \
+   && sudo locale-gen pt_BR.utf8 \
+   && sudo update-locale \
    && sudo localedef -v -c -i pt_BR -f UTF-8 pt_BR.UTF-8 \
    && sudo dpkg-reconfigure locales \
    ;
