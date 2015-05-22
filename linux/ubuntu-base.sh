@@ -68,7 +68,6 @@ INSTALL_PKGS \
     python-flake8 \
     python-pip \
     python-setuptools \
-    python-virtualenv \
     python3-dev \
     ranger \
     silversearcher-ag \
@@ -77,6 +76,10 @@ INSTALL_PKGS \
     zlib1g-dev \
     zsh \
     ;
+
+sudo -E pip install --upgrade \
+  virtualenv \
+  ;
 
 sudo ln -sf /usr/bin/nodejs /usr/bin/node
 
