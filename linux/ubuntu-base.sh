@@ -32,13 +32,12 @@ fi
 
 ## Installs devs pkgs
 ########################################################################
-for repo in \
-  "chris-lea/node.js"; do
-    [ -f "/etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')-$(lsb_release -cs).list" ] || \
-        sudo -E add-apt-repository -y ppa:$repo
-done
+
+# Repo for node.js
+curl -sL https://deb.nodesource.com/setup | sudo bash -
 
 UPDATE
+
 sudo apt-get dist-upgrade --yes
 
 INSTALL_PKGS \
@@ -84,6 +83,7 @@ sudo -E pip install --upgrade \
 sudo ln -sf /usr/bin/nodejs /usr/bin/node
 
 sudo -E npm install -g \
+  bower \
   grunt-cli \
   jshint \
   jsctags \
