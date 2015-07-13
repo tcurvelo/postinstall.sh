@@ -18,22 +18,22 @@ $env:Path += ";%ALLUSERSPROFILE%\chocolatey\bin"
 ########################################################################
 
 iex @"
-choco install avastfreeantivirus
-choco install calibre
-choco install ccleaner
-choco install cdburnerxp
-choco install dropbox
-choco install evernote5
-choco install Firefox
-choco install GoogleChrome
-choco install handbrake
-choco install launchy
-choco install skype
-choco install steam
-choco install sumatrapdf.install
-choco install utorrent
-choco install virtualbox
-choco install vlc
+choco install -y avastfreeantivirus
+choco install -y calibre
+choco install -y ccleaner
+choco install -y cdburnerxp
+choco install -y dropbox
+choco install -y evernote
+choco install -y Firefox
+choco install -y GoogleChrome
+choco install -y handbrake
+choco install -y launchy
+choco install -y skype
+choco install -y steam
+choco install -y sumatrapdf.install
+choco install -y utorrent
+choco install -y virtualbox
+choco install -y vlc
 "@
 
 ## Install citrix receiver
