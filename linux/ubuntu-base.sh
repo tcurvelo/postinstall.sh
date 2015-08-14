@@ -78,6 +78,7 @@ INSTALL_PKGS \
 
 sudo -E pip install --upgrade \
   virtualenv \
+  zc.buildout \
   ;
 
 sudo ln -sf /usr/bin/nodejs /usr/bin/node

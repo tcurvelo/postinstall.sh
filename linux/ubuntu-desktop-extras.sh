@@ -16,13 +16,6 @@ function UPDATE {
     fi
 }
 
-# Repos for Sublime
-for repo in \
-  "webupd8team/sublime-text-3" \
-  ; do
-    [ -f "/etc/apt/sources.list.d/$(echo $repo | sed 's/\//-/g')-$(lsb_release -cs).list" ] || \
-        sudo -E add-apt-repository -y ppa:$repo
-done
 
 UPDATE
 
@@ -32,7 +25,6 @@ INSTALL_PKGS \
     calibre \
     gimp \
     inkscape \
-    sublime-text-installer \
     transmission \
     ubuntu-restricted-addons \
     ubuntu-restricted-extras \
@@ -42,10 +34,15 @@ INSTALL_PKGS \
 # Dropbox
 INSTALL_PKGS \
     python-gpgme
-wget -c \
-    'https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_1.6.0_amd64.deb' \
-    -O dropbox.deb
-sudo dpkg -i dropbox.deb && rm dropbox.deb
+
+
+# Add repo for dropbox
+sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E
+sudo sh -c 'echo "deb http://linux.dropbox.com/ubuntu/ '$(uname -n)' main" \
+  >> /etc/apt/sources.list.d/dropbox.list'
+
+UPDATE
+INSTALL_PKGS dropbox
 
 # Hangouts
 wget -c \
@@ -54,7 +51,7 @@ wget -c \
 sudo dpkg -i gtalk.deb && rm gtalk.deb
 
 # Citrix
-$INSTALA_PACOTES \
+INSTALL_PKGS \
     lib32asound2 \
     lib32z1 \
     nspluginwrapper \
