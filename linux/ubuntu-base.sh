@@ -34,7 +34,7 @@ fi
 ########################################################################
 
 # Repo for node.js
-curl -sL https://deb.nodesource.com/setup | sudo bash -
+wget -qO- https://deb.nodesource.com/setup | sudo bash -
 
 UPDATE
 
