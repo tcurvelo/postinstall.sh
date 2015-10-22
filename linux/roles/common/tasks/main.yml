@@ -29,6 +29,7 @@
     - python-tk
     - python3-dev
     - ranger
+    - ruby-dev
     - silversearcher-ag
     - tmux
     - vim
