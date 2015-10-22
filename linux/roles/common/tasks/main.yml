@@ -26,6 +26,7 @@
     - python-flake8
     - python-pip
     - python-setuptools
+    - python-tk
     - python3-dev
     - ranger
     - silversearcher-ag
