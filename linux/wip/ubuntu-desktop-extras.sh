@@ -17,25 +17,6 @@ function UPDATE {
 }
 
 
-UPDATE
-
-# Extras
-INSTALL_PKGS \
-    browser-plugin-vlc \
-    calibre \
-    gimp \
-    inkscape \
-    transmission \
-    ubuntu-restricted-addons \
-    ubuntu-restricted-extras \
-    virtualbox \
-    ;
-
-# Dropbox
-INSTALL_PKGS \
-    python-gpgme
-
-
 # Add repo for dropbox
 sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 5044912E
 sudo sh -c 'echo "deb http://linux.dropbox.com/ubuntu/ '$(uname -n)' main" \
