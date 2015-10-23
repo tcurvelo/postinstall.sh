@@ -1,0 +1,6 @@
+- hosts: all
+  sudo: true
+  roles:
+    - nodesource.node
+    - common
+    - desktop
