@@ -42,7 +42,6 @@
 - name: Install pkgs using pip
   pip: name={{item}} state=latest
   with_items:
-    - ansible
     - virtualenv
     - zc.buildout
 
