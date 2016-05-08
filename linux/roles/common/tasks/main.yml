@@ -33,6 +33,7 @@
     - silversearcher-ag
     - tmux
     - vim
+    - vim-athena-py2
     - zlib1g-dev
     - zsh
 
