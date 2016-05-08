@@ -12,13 +12,11 @@
   apt_repository: repo={{item}}
   with_items:
     - ppa:webupd8team/java
-    - ppa:webupd8team/themes
 
 - name: Install extra packages
   apt: name={{item}} state=present update_cache=yes cache_valid_time=3600
   with_items:
     - chromium-browser
-    - faenza-icon-theme
     - icedtea-7-plugin
     - oracle-jdk7-installer
     - terminator
