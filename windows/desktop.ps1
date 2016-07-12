@@ -22,16 +22,16 @@ choco install -y avastfreeantivirus
 choco install -y calibre
 choco install -y ccleaner
 choco install -y cdburnerxp
+choco install -y curse-voice
 choco install -y dropbox
-choco install -y evernote
 choco install -y Firefox
+choco install -y f.lux
 choco install -y GoogleChrome
 choco install -y handbrake
 choco install -y launchy
-choco install -y skype
 choco install -y steam
 choco install -y sumatrapdf.install
-choco install -y utorrent
+choco install -y transmission-qt
 choco install -y virtualbox
 choco install -y vlc
 "@
