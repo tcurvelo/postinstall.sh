@@ -36,6 +36,7 @@
     - ranger
     - ruby-dev
     - silversearcher-ag
+    - tig
     - tmux
     - zlib1g-dev
     - zsh
