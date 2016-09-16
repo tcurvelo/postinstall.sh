@@ -19,8 +19,10 @@
     - chromium-browser
     - icedtea-7-plugin
     - oracle-jdk7-installer
+    - synapse
     - terminator
     - vim-gtk
+    - virtualbox
     - wireshark
 
 - name: Install language support

@@ -1,0 +1,8 @@
+# Tasks for a regular Ubuntu desktop machine for both work'n'fun purposes
+
+- hosts: all
+  become: true
+  roles:
+    - common
+    - desktop
+    - extras

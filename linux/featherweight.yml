@@ -1,3 +1,5 @@
+# Tasks for a headless machine (eg. VPS)
+
 - hosts: all
   become: true
   roles:
