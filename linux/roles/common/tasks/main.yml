@@ -12,6 +12,7 @@
     - exuberant-ctags
     - git
     - git-extras
+    - httpie
     - libaio1
     - libffi-dev
     - libjpeg-dev
@@ -23,6 +24,7 @@
     - libssl-dev
     - libxml2-dev
     - libxslt1-dev
+    - lolcat
     - neovim
     - p7zip-full
     - poppler-utils
@@ -38,6 +40,7 @@
     - silversearcher-ag
     - tig
     - tmux
+    - wrk
     - zlib1g-dev
     - zsh
 
