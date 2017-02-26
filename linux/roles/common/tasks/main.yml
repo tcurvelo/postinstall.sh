@@ -14,41 +14,71 @@
     - git-extras
     - httpie
     - libaio1
+    - libbz2-dev
     - libffi-dev
     - libjpeg-dev
     - libldap2-dev
+    - libncurses5-dev
+    - libncursesw5-dev
     - libpcre3-dev
     - libpq-dev
     - libreadline-dev
     - libsasl2-dev
+    - libsqlite3-dev
     - libssl-dev
     - libxml2-dev
     - libxslt1-dev
+    - llvm
     - lolcat
+    - make
     - neovim
     - p7zip-full
     - poppler-utils
+    - python3-dev
+    - python3-pip
     - python-dev
     - python-flake8
     - python-pip
     - python-setuptools
     - python-tk
-    - python3-dev
-    - python3-pip
     - ranger
     - ruby-dev
     - silversearcher-ag
     - tig
     - tmux
+    - wget
     - wrk
+    - xz-utils
+    - zlib1g-dev
     - zlib1g-dev
     - zsh
 
 - name: Upgrade pre-installed pkgs
   apt: upgrade=dist
 
+- name: Install pyenv
+  git:
+    repo: https://github.com/yyuu/pyenv.git
+    dest: "{{ ansible_env.HOME }}/.pyenv"
+
+- name Install python2 with pyenv
+  command: pyenv install 2.7.13
+  creates: "{{ ansible_env.HOME }}/.pyenv/versions/2.7.13"
+
+- name Install python2 with pyenv
+  command: pyenv install 3.6.0
+  creates: "{{ ansible_env.HOME }}/.pyenv/versions/3.6.0"
+
+- name Creates a virtualenv for python2 tools with pyenv
+  command: pyenv virtualenv 2.7.13 tools2
+  creates: "{{ ansible_env.HOME }}"/.pyenv/versions/2.7.13/envs/tools2
+
+- name Creates a virtualenv for python3 tools with pyenv
+  command: pyenv virtualenv 3.6.0 tools3
+  creates: "{{ ansible_env.HOME }}"/.pyenv/versions/3.6.0/envs/tools3
+
 - name: Install pkgs using pip
-  pip: name={{item}} state=latest
+  pip: name={{item}} state=latest executable="{{ ansible_env.HOME }}"/.pyenv/versions/2.7.13/envs/tools2/bin/pip
   with_items:
     - neovim
     - pip
@@ -56,7 +86,7 @@
     - zc.buildout
 
 - name: Install pkgs using pip3
-  pip: name={{item}} executable=pip3 state=latest
+  pip: name={{item}} state=latest executable="{{ ansible_env.HOME }}"/.pyenv/versions/3.6.0/envs/tools3/bin/pip3
   with_items:
     - neovim
     - pip
