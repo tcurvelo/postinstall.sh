@@ -61,21 +61,21 @@
     repo: https://github.com/yyuu/pyenv.git
     dest: "{{ ansible_env.HOME }}/.pyenv"
 
-- name Install python2 with pyenv
-  command: pyenv install 2.7.13
-  creates: "{{ ansible_env.HOME }}/.pyenv/versions/2.7.13"
+#- name Install python2 with pyenv
+  #command: pyenv install 2.7.13
+  #creates: "{{ ansible_env.HOME }}/.pyenv/versions/2.7.13"
 
-- name Install python2 with pyenv
-  command: pyenv install 3.6.0
-  creates: "{{ ansible_env.HOME }}/.pyenv/versions/3.6.0"
+#- name Install python2 with pyenv
+  #command: pyenv install 3.6.0
+  #creates: "{{ ansible_env.HOME }}/.pyenv/versions/3.6.0"
 
-- name Creates a virtualenv for python2 tools with pyenv
-  command: pyenv virtualenv 2.7.13 tools2
-  creates: "{{ ansible_env.HOME }}"/.pyenv/versions/2.7.13/envs/tools2
+#- name Creates a virtualenv for python2 tools with pyenv
+  #command: pyenv virtualenv 2.7.13 tools2
+  #creates: "{{ ansible_env.HOME }}"/.pyenv/versions/2.7.13/envs/tools2
 
-- name Creates a virtualenv for python3 tools with pyenv
-  command: pyenv virtualenv 3.6.0 tools3
-  creates: "{{ ansible_env.HOME }}"/.pyenv/versions/3.6.0/envs/tools3
+#- name Creates a virtualenv for python3 tools with pyenv
+  #command: pyenv virtualenv 3.6.0 tools3
+  #creates: "{{ ansible_env.HOME }}"/.pyenv/versions/3.6.0/envs/tools3
 
 - name: Install pkgs using pip
   pip: name={{item}} state=latest executable="{{ ansible_env.HOME }}"/.pyenv/versions/2.7.13/envs/tools2/bin/pip
