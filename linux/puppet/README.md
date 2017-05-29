@@ -10,5 +10,4 @@ TODO:
 - Install node && npm
 - Install global npm pkgs: grunt-cli, jsctags, jshint
 - Install plone dependencies
-- Configure buildout dirs
 - Install docker

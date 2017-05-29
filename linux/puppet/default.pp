@@ -1,7 +1,14 @@
 node default {
-  class {'lab::pyenv':
-    pyenv_root => '/home/ubuntu/.pyenv'
-  }
+  $home = "/home/ubuntu"
+
   include lab::ubuntu
+
+  class {"lab::pyenv":
+    pyenv_root => "${home}/.pyenv"
+  }
+
+  class {"lab::buildout":
+    home  => $home
+  }
 
 }

@@ -1,0 +1,4 @@
+[buildout]
+eggs-directory = <%= $buildout_dir %>/eggs
+download-cache = <%= $buildout_dir %>/dlcache
+
