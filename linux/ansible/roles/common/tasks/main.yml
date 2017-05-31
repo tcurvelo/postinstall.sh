@@ -94,6 +94,7 @@
 - name: Install pkgs using npm
   npm: global=yes name={{item}} state=latest
   with_items:
+    - browser-sync
     - grunt-cli
     - jsctags
     - jshint
