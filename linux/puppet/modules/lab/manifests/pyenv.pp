@@ -67,7 +67,7 @@ class lab::pyenv($pyenv_root) {
   }
 
   exec { "tools2-pkgs":
-    command => "${pyenv_root}/versions/${python2}/tools2/bin/pip install neovim",
+    command => "${pyenv_root}/versions/${python2}/tools2/bin/pip install neovim flake8",
     path => $pyenv_path,
     timeout => 0,
     environment => $pyenv_env,
@@ -94,7 +94,7 @@ class lab::pyenv($pyenv_root) {
   }
 
   exec { "tools3-pkgs":
-    command => "${pyenv_root}/versions/${python3}/tools3/bin/pip install neovim",
+    command => "${pyenv_root}/versions/${python3}/tools3/bin/pip install neovim flake8",
     path => $pyenv_path,
     timeout => 0,
     environment => $pyenv_env,
