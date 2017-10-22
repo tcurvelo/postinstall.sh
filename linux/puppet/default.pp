@@ -1,14 +1,13 @@
 node default {
-  $home = "/home/ubuntu"
+  $home = "/home/tcurvelo"
 
   include lab::ubuntu
-
-  class {"lab::pyenv":
-    pyenv_root => "${home}/.pyenv"
-  }
 
   class {"lab::buildout":
     home  => $home
   }
 
+  class {"lab::pyenv":
+    pyenv_root => "${home}/.pyenv"
+  }
 }
