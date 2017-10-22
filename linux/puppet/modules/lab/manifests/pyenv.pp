@@ -1,7 +1,7 @@
 class lab::pyenv($pyenv_root) {
 
   $python2 = "2.7.13"
-  $python3 = "3.6.1"
+  $python3 = "3.6.2"
   $python2_major = "python2.7"
   $python3_major = "python3.6"
   $pyenv_path = [
@@ -67,11 +67,11 @@ class lab::pyenv($pyenv_root) {
   }
 
   exec { "tools2-pkgs":
-    command => "${pyenv_root}/versions/${python2}/tools2/bin/pip install neovim flake8",
+    command => "${pyenv_root}/versions/${python2}/envs/tools2/bin/pip install neovim flake8 ipython pdbpp",
     path => $pyenv_path,
     timeout => 0,
     environment => $pyenv_env,
-    creates => "${pyenv_root}/versions/tools2/lib/${python2_major}/site-packages/neovim",
+    creates => "${pyenv_root}/versions/tools2/lib/${python2_major}/site-packages/pdbpp",
     require => Exec["tools2-init"]
   }
 
@@ -94,11 +94,11 @@ class lab::pyenv($pyenv_root) {
   }
 
   exec { "tools3-pkgs":
-    command => "${pyenv_root}/versions/${python3}/tools3/bin/pip install neovim flake8",
+    command => "${pyenv_root}/versions/${python3}/envs/tools3/bin/pip install neovim flake8 ipython pdbpp",
     path => $pyenv_path,
     timeout => 0,
     environment => $pyenv_env,
-    creates => "${pyenv_root}/versions/tools3/lib/${python3_major}/site-packages/neovim",
+    creates => "${pyenv_root}/versions/tools3/lib/${python3_major}/site-packages/pdbpp",
     require => Exec["tools3-init"]
   }
 
