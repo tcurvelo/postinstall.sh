@@ -1,7 +1,0 @@
-# Tasks for a regular Ubuntu desktop machine
-
-- hosts: all
-  become: true
-  roles:
-    - common
-    - desktop

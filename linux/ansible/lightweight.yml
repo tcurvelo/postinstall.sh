@@ -1,7 +1,0 @@
-# Tasks for an Ubuntu desktop machine with less power (eg. virtualbox machine)
-
-- hosts: all
-  become: true
-  roles:
-    - common
-    - i3
