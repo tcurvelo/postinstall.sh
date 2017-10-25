@@ -11,7 +11,6 @@ APT_INSTALL ${packages['dev']} ${packages['python']}
 PYENV_INSTALL ${packages['pip']}
 NPM_INSTALL ${packages['npm']}
 
-
 case $1 in
   desktop-minimal)
     APT_INSTALL ${packages['desktop-common']} ${packages['desktop-minimal']}
@@ -20,4 +19,3 @@ case $1 in
     APT_INSTALL ${packages['desktop-common']} ${packages['desktop-complete']}
     ;;
 esac
-

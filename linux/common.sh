@@ -20,9 +20,8 @@ function APT_REMOVE {
     sudo apt-get -y remove $(echo $*)
 }
 
-
 function NPM_INSTALL {
-    sudo npm install -g $(echo $*)
+    sudo npm install -g npm $(echo $*)
 }
 
 function UPDATE_LOCALES() {
