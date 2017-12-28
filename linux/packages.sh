@@ -56,7 +56,7 @@ packages['python']='
 packages['pip']='
     neovim
     ipython
-    pdpbb
+    pdbpp
 '
 
 packages['desktop-common']='
