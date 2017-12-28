@@ -1,5 +1,5 @@
 #!/bin/bash
-pythons=(2.7.13 3.6.2)
+pythons=(2.7.14 3.6.4)
 pyenv=$HOME/.pyenv
 
 function PYENV_INSTALL() {
