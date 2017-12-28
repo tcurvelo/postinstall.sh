@@ -10,11 +10,18 @@ packages['dev']='
     git
     git-extras
     httpie
+    libffi-dev
+    libxml2
+    libxml2-dev
+    libxml2-utils
+    libxslt-dev
     make
     neovim
     nodejs
     npm
+    openssl-dev
     p7zip-full
+    perl
     python-dev
     python-tk
     python3-dev
