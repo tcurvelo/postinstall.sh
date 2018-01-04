@@ -55,8 +55,9 @@ packages['python']='
 '
 
 packages['pip']='
-    neovim
+    docker-compose
     ipython
+    neovim
     pdbpp
 '
 
