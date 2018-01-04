@@ -28,6 +28,7 @@ packages['dev']='
     ranger
     ruby-dev
     tig
+    tree
     tmux
     wget
     wrk
