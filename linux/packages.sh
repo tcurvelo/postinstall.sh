@@ -14,12 +14,11 @@ packages['dev']='
     libxml2
     libxml2-dev
     libxml2-utils
-    libxslt-dev
+    libxslt1-dev
     make
     neovim
     nodejs
     npm
-    openssl-dev
     p7zip-full
     perl
     python-dev
@@ -28,8 +27,8 @@ packages['dev']='
     ranger
     ruby-dev
     tig
-    tree
     tmux
+    tree
     wget
     wrk
     zsh
