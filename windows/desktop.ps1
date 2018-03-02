@@ -17,8 +17,6 @@ iex @"
 choco install -y avastfreeantivirus
 choco install -y calibre
 choco install -y ccleaner
-choco install -y cdburnerxp
-choco install -y curse-voice
 choco install -y dropbox
 choco install -y Firefox
 choco install -y f.lux
