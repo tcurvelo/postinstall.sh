@@ -26,9 +26,10 @@ function NPM_INSTALL {
 
 function UPDATE_LOCALES() {
   APT_INSTALL locales \
-    && sudo locale-gen en_US en_US.utf8 pt_BR pt_BR.utf8 \
-    && sudo update-locale \
-    && sudo dpkg-reconfigure locales
+    && sudo locale-gen --purge \
+       en_US en_US.utf8 \
+       pt_BR pt_BR.utf8 \
+    && sudo dpkg-reconfigure --unseen locales
 }
 
 function ENABLE_SUDO() {
