@@ -14,8 +14,10 @@ NPM_INSTALL ${packages['npm']}
 case $1 in
   desktop-minimal)
     APT_INSTALL ${packages['desktop-common']} ${packages['desktop-minimal']}
+    INSTALL_DOCKER
     ;;
   desktop-complete)
     APT_INSTALL ${packages['desktop-common']} ${packages['desktop-complete']}
+    INSTALL_DOCKER
     ;;
 esac
