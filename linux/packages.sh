@@ -4,8 +4,7 @@ declare -A packages
 packages['dev']='
     build-essential
     curl
-    docker-compose
-    docker.io
+    direnv
     exuberant-ctags
     git
     git-extras
@@ -56,8 +55,12 @@ packages['python']='
 packages['pip']='
     docker-compose
     ipython
+    jupyter
     neovim
     pdbpp
+    pipenv
+    requests
+    youtube-dl
 '
 
 packages['desktop-common']='
