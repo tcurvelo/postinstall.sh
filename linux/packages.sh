@@ -58,6 +58,7 @@ packages['pip']='
     jupyter
     neovim
     pdbpp
+    pip
     pipenv
     requests
     youtube-dl

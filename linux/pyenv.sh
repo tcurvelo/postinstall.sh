@@ -25,7 +25,7 @@ function PYENV_INSTALL() {
         $pyenv/bin/pyenv virtualenv $python $tools
 
     # Install global tools
-    $HOME/.pyenv/versions/$python/envs/$tools/bin/pip install $(echo $pkgs)
+    $HOME/.pyenv/versions/$python/envs/$tools/bin/pip install -U $(echo $pkgs)
     global_envs+=($tools)
   done
 
