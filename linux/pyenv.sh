@@ -15,19 +15,20 @@ function PYENV_INSTALL() {
 
   global_envs=()
   for python in $pythons; do
+    echo $python
     # Install each python version
     [ ! -d $HOME/.pyenv/versions/$python ] && \
         $pyenv/bin/pyenv install $python
-
-    # Install a virtualenv for global tools
-    tools="tools${python:0:1}"
-    [ ! -d "$HOME/.pyenv/versions/$python/envs/$tools" ] && \
-        $pyenv/bin/pyenv virtualenv $python $tools
-
-    # Install global tools
-    $HOME/.pyenv/versions/$python/envs/$tools/bin/pip install -U $(echo $pkgs)
-    global_envs+=($tools)
   done
+
+  # Install a virtualenv for global tools
+  tools="tools3"
+  [ ! -d "$HOME/.pyenv/versions/$python/envs/$tools" ] && \
+      $pyenv/bin/pyenv virtualenv $python $tools
+
+  # Install global tools
+  $HOME/.pyenv/versions/$python/envs/$tools/bin/pip install -U $(echo $pkgs)
+  global_envs+=($tools)
 
   $pyenv/bin/pyenv global $pythons $global_envs
 }
