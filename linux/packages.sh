@@ -29,7 +29,6 @@ packages['dev']='
     tmux
     tree
     wget
-    wrk
     zsh
 '
 
