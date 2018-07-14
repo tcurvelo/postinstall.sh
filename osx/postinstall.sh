@@ -3,11 +3,13 @@
 brew install \
       cask \
       ctags \
+      direnv \
       neovim \
       readline \
       ripgrep \
       sqlite \
       tree \
+      wget \
       ;
 
 brew cask install \
@@ -23,3 +25,6 @@ brew cask install \
       steam \
       visual-studio-code \
       ;
+
+brew upgrade
+brew cask upgrade
