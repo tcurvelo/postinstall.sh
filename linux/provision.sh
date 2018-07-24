@@ -2,6 +2,7 @@
 source common.sh
 source packages.sh
 source pyenv.sh
+source docker.sh
 
 ENABLE_SUDO
 UPDATE_LOCALES
