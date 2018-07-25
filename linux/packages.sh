@@ -55,11 +55,14 @@ packages['pip']='
     docker-compose
     ipython
     jupyter
+    jupyterlab
     neovim
     pdbpp
     pip
     pipenv
+    pylint
     requests
+    scrapy
     youtube-dl
 '
 
@@ -78,9 +81,7 @@ packages['desktop-minimal']='
 packages['desktop-complete']='
     calibre
     gimp
-    icedtea-7-plugin
     inkscape
-    oracle-jdk7-installer
     synapse
     transmission
     ubuntu-restricted-addons
