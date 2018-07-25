@@ -13,9 +13,7 @@ function APT_UPDATE {
 
 function APT_INSTALL {
   APT_UPDATE
-  for pkg in $(echo $*); do
-      sudo apt-get -y --ignore-missing install $pkg
-  done
+  sudo apt-get -y --ignore-missing install $(echo $*)
 }
 
 function APT_REMOVE {
