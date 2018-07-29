@@ -14,9 +14,9 @@ $env:Path += ";%ALLUSERSPROFILE%\chocolatey\bin"
 ## Install packages from chocolatey gallery
 ########################################################################
 iex @"
-choco install -y avastfreeantivirus
 choco install -y calibre
 choco install -y ccleaner
+choco install -y cmder
 choco install -y dropbox
 choco install -y Firefox
 choco install -y f.lux
