@@ -52,6 +52,7 @@ packages['python']='
 '
 
 packages['pip']='
+    black
     docker-compose
     ipython
     jupyter

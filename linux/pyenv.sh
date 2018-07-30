@@ -1,5 +1,6 @@
 #!/bin/bash
 pythons=(3.6.6 2.7.14)
+favorite_version=3.6.6
 pyenv=$HOME/.pyenv
 
 function PYENV_INSTALL() {
@@ -16,12 +17,11 @@ function PYENV_INSTALL() {
   global_envs=()
   for python in ${pythons[@]}; do
     # Install each python version
-    [ ! -d $HOME/.pyenv/versions/$python ] && \
+    [ ! -d ¨"$HOME/.pyenv/versions/$python" ] && \
         $pyenv/bin/pyenv install $python
   done
 
   # Install a virtualenv for global tools based on the *FIRST* python version
-  favorite_version=${python[0]}
   tools="tools"
   [ ! -d "$HOME/.pyenv/versions/$favorite_version/envs/$tools" ] && \
       $pyenv/bin/pyenv virtualenv $favorite_version $tools
