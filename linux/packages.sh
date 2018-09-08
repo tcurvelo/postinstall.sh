@@ -34,6 +34,7 @@ packages['dev']='
 
 packages['npm']='
     browser-sync
+    diff-so-fancy
     grunt-cli
     jshint
 '
