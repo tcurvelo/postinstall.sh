@@ -16,8 +16,6 @@ packages['dev']='
     libxslt1-dev
     make
     neovim
-    nodejs
-    npm
     p7zip-full
     perl
     python-dev
@@ -41,6 +39,7 @@ packages['npm']='
 
 packages['python']='
     libbz2-dev
+    libdb-dev
     libncurses5-dev
     libncursesw5-dev
     libreadline-dev
@@ -55,10 +54,13 @@ packages['python']='
 packages['pip']='
     black
     docker-compose
+    flake8
     ipython
+    isort
     jupyter
     jupyterlab
     neovim
+    pandas
     pdbpp
     pip
     pipenv
