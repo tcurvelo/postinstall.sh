@@ -33,7 +33,6 @@ packages['dev']='
 packages['npm']='
     browser-sync
     diff-so-fancy
-    grunt-cli
     jshint
 '
 
@@ -53,15 +52,13 @@ packages['python']='
 
 packages['pip']='
     black
-    docker-compose
     flake8
+    ipdb
     ipython
     isort
-    jupyter
     jupyterlab
     neovim
     pandas
-    pdbpp
     pip
     pipenv
     pylint
