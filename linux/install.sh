@@ -2,8 +2,6 @@
 source common.sh
 source packages.sh
 source pyenv.sh
-source docker.sh
-source vscode.sh
 
 ENABLE_SUDO
 UPDATE_LOCALES
@@ -16,6 +14,8 @@ NPM_INSTALL ${packages['npm']}
 
 case $1 in
   desktop-*)
+    source docker.sh
+    source vscode.sh
     APT_INSTALL ${packages['desktop-common']}
     INSTALL_DOCKER
     INSTALL_CODE
