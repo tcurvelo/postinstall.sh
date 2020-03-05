@@ -11,6 +11,7 @@ CREATE_SSH_KEY
 
 APT_INSTALL ${packages['dev']} ${packages['python']}
 PYENV_INSTALL ${packages['pip']}
+INSTALL_NODE
 NPM_INSTALL ${packages['npm']}
 
 case $1 in
