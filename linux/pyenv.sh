@@ -1,6 +1,6 @@
 #!/bin/bash
-pythons=(3.7.1 2.7.14)
-favorite_version=3.7.1
+pythons=(3.8.0)
+favorite_version=3.8.0
 pyenv=$HOME/.pyenv
 
 function PYENV_INSTALL() {
