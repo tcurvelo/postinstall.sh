@@ -15,6 +15,7 @@ packages['dev']='
     libxml2-utils
     libxslt1-dev
     make
+    mitmproxy
     neovim
     p7zip-full
     perl
@@ -22,7 +23,6 @@ packages['dev']='
     python-tk
     python3-dev
     ranger
-    ruby-dev
     tig
     tmux
     tree
@@ -60,7 +60,6 @@ packages['pip']='
     neovim
     pandas
     pip
-    pipenv
     pylint
     requests
     scrapy
