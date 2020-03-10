@@ -20,8 +20,6 @@ packages['dev']='
     p7zip-full
     perl
     python-dev
-    python-tk
-    python3-dev
     ranger
     tig
     tmux
