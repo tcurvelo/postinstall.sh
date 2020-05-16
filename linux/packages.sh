@@ -43,7 +43,6 @@ packages['python']='
     libsqlite3-dev
     libssl-dev
     llvm
-    tk-dev
     xz-utils
     zlib1g-dev
 '
