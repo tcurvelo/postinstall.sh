@@ -21,6 +21,7 @@ packages['dev']='
     perl
     python-dev
     ranger
+    rsync
     tig
     tmux
     tree
