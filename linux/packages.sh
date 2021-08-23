@@ -9,6 +9,7 @@ packages['dev']='
     git
     git-extras
     httpie
+    jq
     libffi-dev
     libxml2
     libxml2-dev
@@ -21,6 +22,7 @@ packages['dev']='
     perl
     python-dev
     ranger
+    ripgrep
     rsync
     tig
     tmux
@@ -66,7 +68,7 @@ packages['pip']='
 
 packages['desktop-common']='
     chromium-browser
-    konsole
+    kitty
     wireshark
 '
 
@@ -80,11 +82,8 @@ packages['desktop-complete']='
     calibre
     gimp
     inkscape
-    synapse
-    transmission
     ubuntu-restricted-addons
     ubuntu-restricted-extras
-    virtualbox
 '
 
 export packages
