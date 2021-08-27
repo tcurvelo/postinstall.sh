@@ -11,6 +11,7 @@ packages['dev']='
     httpie
     jq
     libffi-dev
+    liblzma-dev
     libxml2
     libxml2-dev
     libxml2-utils
