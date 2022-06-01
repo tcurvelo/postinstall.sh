@@ -21,7 +21,6 @@ packages['dev']='
     neovim
     p7zip-full
     perl
-    python-dev
     ranger
     ripgrep
     rsync
@@ -68,9 +67,10 @@ packages['pip']='
 '
 
 packages['desktop-common']='
-    chromium-browser
     kitty
-    wireshark
+    network-manager-openconnect
+    network-manager-openconnect-gnome
+    openconnect
 '
 
 packages['desktop-minimal']='
