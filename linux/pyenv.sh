@@ -1,5 +1,5 @@
 #!/bin/bash
-pythons=(3.8.5 3.9.6)
+pythons=(3.10.4)
 favorite_version=3.9.6
 pyenv=$HOME/.pyenv
 
