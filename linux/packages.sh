@@ -51,19 +51,15 @@ packages['python']='
 '
 
 packages['pip']='
-    black
-    flake8
     ipdb
-    ipython
-    isort
     jupyterlab
-    neovim
     pandas
-    pip
-    pylint
-    requests
+    pip-tools
+    pipenv
+    poetry
+    ruff
     scrapy
-    youtube-dl
+    yt-dlp
 '
 
 packages['desktop-common']='
