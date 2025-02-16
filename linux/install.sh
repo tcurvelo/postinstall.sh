@@ -22,3 +22,6 @@ case $1 in
       desktop-complete) APT_INSTALL ${packages['desktop-complete']};;
     esac
 esac
+
+APT_CLEAN
+

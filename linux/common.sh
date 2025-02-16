@@ -22,6 +22,11 @@ function APT_REMOVE {
     $SUDO apt-get -y remove $(echo $*)
 }
 
+function APT_CLEAN {
+	$SUDO apt autoremove -y;
+	$SUDO apt clean;
+}
+
 function UPDATE_LOCALES() {
   APT_INSTALL locales \
     && $SUDO locale-gen --purge \
