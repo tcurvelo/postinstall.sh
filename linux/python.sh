@@ -6,15 +6,16 @@ function PYTHON_TOOLS_INSTALL() {
   if ! which uv >/dev/null; then
     curl -LsSf https://astral.sh/uv/install.sh | sh
   fi
+  UV=$HOME/.local/bin/uv
 
   # install some python versions
   for python in ${pythons[@]}; do
-    uv python install $python
+    $UV python install $python
   done
 
   # install tools
   pkgs=$1
   for tool in $(echo $pkgs); do
-    uv tool install $tool
+    $UV tool install $tool
   done
 }
