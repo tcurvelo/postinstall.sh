@@ -9,8 +9,6 @@ CREATE_SSH_KEY
 
 APT_INSTALL ${packages['dev']} ${packages['python']}
 PYTHON_TOOLS_INSTALL ${packages['pip']}
-INSTALL_NODE
-NPM_INSTALL ${packages['npm']}
 
 case $1 in
   desktop-*)

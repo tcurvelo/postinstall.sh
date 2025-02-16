@@ -31,12 +31,6 @@ packages['dev']='
     zsh
 '
 
-packages['npm']='
-    browser-sync
-    diff-so-fancy
-    jshint
-'
-
 packages['python']='
     libbz2-dev
     libdb-dev
