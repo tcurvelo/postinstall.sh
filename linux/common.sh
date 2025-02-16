@@ -22,10 +22,6 @@ function APT_REMOVE {
     $SUDO apt-get -y remove $(echo $*)
 }
 
-function NPM_INSTALL {
-    $SUDO npm install -g npm $(echo $*)
-}
-
 function UPDATE_LOCALES() {
   APT_INSTALL locales \
     && $SUDO locale-gen --purge \
