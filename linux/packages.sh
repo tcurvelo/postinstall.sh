@@ -7,6 +7,7 @@ packages['dev']='
     direnv
     exuberant-ctags
     git
+    git-delta
     git-extras
     httpie
     jq
