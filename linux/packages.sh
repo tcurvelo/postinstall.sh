@@ -4,6 +4,7 @@ declare -A packages
 packages['dev']='
     build-essential
     curl
+    dbeaver-ce
     direnv
     exuberant-ctags
     git
