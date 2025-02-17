@@ -29,6 +29,7 @@ packages['dev']='
     tig
     tmux
     tree
+    unzip
     wget
     zsh
 '
