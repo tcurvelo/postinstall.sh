@@ -19,12 +19,18 @@ function APT_INSTALL {
 }
 
 function APT_REMOVE {
-    $SUDO apt-get -y remove $(echo $*)
+  $SUDO apt-get -y remove $(echo $*)
 }
 
 function APT_CLEAN {
-	$SUDO apt autoremove -y;
-	$SUDO apt clean;
+  $SUDO apt autoremove -y;
+  $SUDO apt clean;
+}
+
+function SNAP_INSTALL {
+  for pkg in $(echo $*); do
+    $SUDO snap install $pkg --classic
+  done
 }
 
 function UPDATE_LOCALES() {

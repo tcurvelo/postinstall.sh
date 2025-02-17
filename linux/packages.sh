@@ -66,6 +66,13 @@ packages['desktop-common']='
     openconnect
 '
 
+packages['desktop-common-snap']='
+    bitwarden
+    code
+    obsidian
+    slack
+'
+
 packages['desktop-minimal']='
     feh
     i3
