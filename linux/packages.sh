@@ -39,8 +39,7 @@ packages['dev']='
 packages['python']='
     libbz2-dev
     libdb-dev
-    libncurses5-dev
-    libncursesw5-dev
+    libncurses-dev
     libreadline-dev
     libsqlite3-dev
     libssl-dev
