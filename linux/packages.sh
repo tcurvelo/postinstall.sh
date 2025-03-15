@@ -32,6 +32,8 @@ packages['dev']='
     unzip
     wget
     zsh
+    zsh-autosuggestions
+    zsh-syntax-highlighting
 '
 
 packages['python']='
