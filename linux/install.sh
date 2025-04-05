@@ -2,6 +2,7 @@
 source common.sh
 source packages.sh
 source python.sh
+source chrome.sh
 
 ENABLE_SUDO
 UPDATE_LOCALES
@@ -16,6 +17,7 @@ case $1 in
     APT_INSTALL ${packages['desktop-common']}
     SNAP_INSTALL ${packages['desktop-common-snap']}
     INSTALL_DOCKER
+    INSTALL_CHROME
     case $1 in
       desktop-minimal) APT_INSTALL ${packages['desktop-minimal']};;
       desktop-complete) APT_INSTALL ${packages['desktop-complete']};;
