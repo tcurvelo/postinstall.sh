@@ -4,7 +4,6 @@ declare -A packages
 packages['dev']='
     build-essential
     curl
-    dbeaver-ce
     direnv
     exuberant-ctags
     git
@@ -72,6 +71,7 @@ packages['desktop-common-snap']='
     code
     obsidian
     slack
+    dbeaver-ce
 '
 
 packages['desktop-minimal']='
