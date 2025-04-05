@@ -1,7 +1,12 @@
 
 function INSTALL_DOCKER {
-  # Install packages to allow apt to use a repository over HTTPS:
   APT_UPDATE
+  # remove old docker packages
+  for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do
+    sudo apt-get remove $pkg;
+  done
+
+  # install required packages
   APT_INSTALL \
       apt-transport-https \
       ca-certificates \
@@ -9,15 +14,17 @@ function INSTALL_DOCKER {
       software-properties-common
 
   # Add Docker’s official GPG key:
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 
   # Set up the stable repository
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  echo \
+    "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+    $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+    sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
   # Install docker ce
   APT_UPDATE
-  APT_INSTALL docker-ce
+  APT_INSTALL docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 }
 
