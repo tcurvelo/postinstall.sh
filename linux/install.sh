@@ -10,7 +10,9 @@ ENABLE_SUDO
 UPDATE_LOCALES
 CREATE_SSH_KEY
 
-APT_INSTALL ${packages['dev']} ${packages['python']}
+for pkg in ${packages['dev']} ${packages['python']}; do
+  APT_INSTALL $pkg;
+done
 PYTHON_TOOLS_INSTALL ${packages['pip']}
 INSTALL_K8S_TOOLS
 INSTALL_HASHICORP_TOOLS
