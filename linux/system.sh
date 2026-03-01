@@ -1,6 +1,6 @@
 #!/bin/bash
 # System-level setup that must happen before Ansible runs.
-# Handles only passwordless sudo — everything else is in site.yml.
+# Handles passwordless sudo — SSH key and locales are in site.yml.
 set -e
 
 [ "$(id -u)" != "0" ] && SUDO="sudo" || SUDO=""

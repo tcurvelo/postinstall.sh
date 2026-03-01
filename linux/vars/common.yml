@@ -10,8 +10,6 @@ pkg_dev_common:
   - httpie
   - jq
   - neovim
-  - nodejs
-  - npm
   - perl
   - ranger
   - ripgrep
