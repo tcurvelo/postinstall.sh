@@ -7,7 +7,7 @@ My personal post-install automation. Not a general-purpose tool, but feel free t
 ### Requirements
 
 - Ubuntu or Fedora
-- `git` and `bash` (pre-installed on most distros)
+- `bash` and `curl` (pre-installed on most distros)
 
 ### Usage
 
