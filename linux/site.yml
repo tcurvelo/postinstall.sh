@@ -15,18 +15,26 @@
 
     # ── system ───────────────────────────────────────────────────────────────
     - name: Generate SSH key
-      community.crypto.openssh_keypair:
-        path: "{{ ansible_env.HOME }}/.ssh/id_rsa"
-        type: rsa
+      ansible.builtin.command:
+        cmd: ssh-keygen -t rsa -N "" -f "{{ ansible_env.HOME }}/.ssh/id_rsa"
+        creates: "{{ ansible_env.HOME }}/.ssh/id_rsa"
       tags: system
 
-    - name: Configure locales
+    - name: Configure locales (Ubuntu)
       become: true
-      ansible.builtin.shell: >
-        command -v locale-gen &>/dev/null &&
-        locale-gen en_US.UTF-8 pt_BR.UTF-8 ||
-        localectl set-locale LANG=en_US.UTF-8
+      ansible.builtin.command:
+        cmd: locale-gen en_US.UTF-8 pt_BR.UTF-8
+      register: locale_gen_result
+      changed_when: "'Generating' in locale_gen_result.stdout"
+      when: ansible_distribution == "Ubuntu"
+      tags: system
+
+    - name: Configure locales (Fedora)
+      become: true
+      ansible.builtin.command:
+        cmd: localectl set-locale LANG=en_US.UTF-8
       changed_when: false
+      when: ansible_distribution == "Fedora"
       tags: system
 
     # ── dev ──────────────────────────────────────────────────────────────────
@@ -39,22 +47,27 @@
 
     - name: Register neovim as vi/vim alternative
       become: true
-      ansible.builtin.command:
-        cmd: update-alternatives --install /usr/bin/{{ item }} {{ item }} /usr/bin/nvim 60
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          update-alternatives --query {{ item }} 2>/dev/null | grep -q '^Alternative: /usr/bin/nvim' \
+            || { update-alternatives --install /usr/bin/{{ item }} {{ item }} /usr/bin/nvim 60 && echo changed; }
+        executable: /bin/bash
+      register: alt_result
+      changed_when: "'changed' in alt_result.stdout"
       loop:
         - vi
         - vim
-      changed_when: false
       tags: dev
 
-    - name: Install claude-code via native installer
+    - name: Install claude-code via native installer  # noqa: command-instead-of-module risky-shell-pipe
       ansible.builtin.shell:
         cmd: curl -fsSL https://claude.ai/install.sh | bash
         creates: "{{ ansible_env.HOME }}/.local/bin/claude"
       tags: dev
 
     # ── python ───────────────────────────────────────────────────────────────
-    - name: Install uv
+    - name: Install uv  # noqa: command-instead-of-module risky-shell-pipe
       ansible.builtin.shell:
         cmd: curl -LsSf https://astral.sh/uv/install.sh | sh
         creates: "{{ ansible_env.HOME }}/.local/bin/uv"
@@ -63,7 +76,8 @@
     - name: Install Python versions via uv
       ansible.builtin.command:
         cmd: "{{ ansible_env.HOME }}/.local/bin/uv python install 3.13 3.12 3.11"
-      changed_when: false
+      register: uv_python_result
+      changed_when: "'Installed Python' in uv_python_result.stdout"
       tags: python
 
     - name: Install Python tools via uv
@@ -75,12 +89,14 @@
         - pipenv
         - jupyterlab
         - scrapy
-      changed_when: false
-      failed_when: false
+      register: uv_tool_result
+      changed_when: "'Installed' in uv_tool_result.stdout"
       tags: python
 
     # ── k8s ──────────────────────────────────────────────────────────────────
-    - block:
+    - name: Set up k8s tools
+      tags: k8s
+      block:
         - name: Ensure ~/.local/bin exists
           ansible.builtin.file:
             path: "{{ ansible_env.HOME }}/.local/bin"
@@ -95,14 +111,14 @@
 
         - name: Download kubectl
           ansible.builtin.get_url:
-            url: "https://dl.k8s.io/release/{{ kubectl_version.content | trim }}/bin/linux/amd64/kubectl"
+            url: "https://dl.k8s.io/release/{{ kubectl_version.content | trim }}/bin/linux/{{ deb_arch }}/kubectl"
             dest: "{{ ansible_env.HOME }}/.local/bin/kubectl"
             mode: "0755"
             force: false
 
         - name: Download kind
           ansible.builtin.get_url:
-            url: https://kind.sigs.k8s.io/dl/v0.27.0/kind-linux-amd64
+            url: "https://kind.sigs.k8s.io/dl/v0.27.0/kind-linux-{{ deb_arch }}"
             dest: "{{ ansible_env.HOME }}/.local/bin/kind"
             mode: "0755"
             force: false
@@ -116,15 +132,16 @@
 
         - name: Download k9s deb (Ubuntu)
           ansible.builtin.get_url:
-            url: "{{ (k9s_release.json.assets | selectattr('name', 'equalto', 'k9s_linux_amd64.deb') | first).browser_download_url }}"
-            dest: /tmp/k9s_linux_amd64.deb
+            url: "{{ (k9s_release.json.assets | selectattr('name', 'equalto', 'k9s_linux_' + deb_arch + '.deb') | first).browser_download_url }}"
+            dest: "/tmp/k9s_linux_{{ deb_arch }}.deb"
+            mode: "0644"
             force: false
           when: ansible_distribution == "Ubuntu"
 
         - name: Install k9s deb (Ubuntu)
           become: true
           ansible.builtin.apt:
-            deb: /tmp/k9s_linux_amd64.deb
+            deb: "/tmp/k9s_linux_{{ deb_arch }}.deb"
           when: ansible_distribution == "Ubuntu"
 
         - name: Install k9s (Fedora)
@@ -134,11 +151,11 @@
             state: present
           when: ansible_distribution == "Fedora"
 
-      tags: k8s
-
     # ── hashicorp ─────────────────────────────────────────────────────────────
-    - block:
-        - name: Download HashiCorp GPG key (Ubuntu)
+    - name: Set up HashiCorp tools
+      tags: hashicorp
+      block:
+        - name: Download HashiCorp GPG key (Ubuntu)  # noqa: command-instead-of-module risky-shell-pipe
           become: true
           ansible.builtin.shell:
             cmd: >
@@ -161,10 +178,11 @@
           ansible.builtin.get_url:
             url: https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
             dest: /etc/yum.repos.d/hashicorp.repo
+            mode: "0644"
             force: false
           when: ansible_distribution == "Fedora"
 
-        - name: Install HashiCorp tools
+        - name: Install HashiCorp packages
           become: true
           ansible.builtin.package:
             name:
@@ -173,10 +191,10 @@
               - nomad
             state: present
 
-      tags: hashicorp
-
     # ── docker ────────────────────────────────────────────────────────────────
-    - block:
+    - name: Set up Docker
+      tags: docker
+      block:
         - name: Remove old Docker packages (Ubuntu)
           become: true
           ansible.builtin.apt:
@@ -212,7 +230,9 @@
         - name: Add Docker apt repository (Ubuntu)
           become: true
           ansible.builtin.apt_repository:
-            repo: "deb [arch={{ deb_arch }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+            repo: >-
+              deb [arch={{ deb_arch }} signed-by=/etc/apt/keyrings/docker.asc]
+              https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
             state: present
             filename: docker
           when: ansible_distribution == "Ubuntu"
@@ -222,10 +242,11 @@
           ansible.builtin.get_url:
             url: https://download.docker.com/linux/fedora/docker-ce.repo
             dest: /etc/yum.repos.d/docker-ce.repo
+            mode: "0644"
             force: false
           when: ansible_distribution == "Fedora"
 
-        - name: Install Docker CE
+        - name: Install Docker CE packages
           become: true
           ansible.builtin.package:
             name:
@@ -250,8 +271,6 @@
             groups: docker
             append: true
 
-      tags: docker
-
     # ── desktop ───────────────────────────────────────────────────────────────
     - name: Install oh-my-zsh
       ansible.builtin.shell:
@@ -268,8 +287,11 @@
       when: profile == 'desktop'
 
     # ── flatpak ───────────────────────────────────────────────────────────────
-    - block:
-        - name: Install flatpak
+    - name: Set up Flatpak
+      tags: flatpak
+      when: profile == 'desktop'
+      block:
+        - name: Install flatpak package
           become: true
           ansible.builtin.package:
             name: flatpak
@@ -279,7 +301,8 @@
           become: true
           ansible.builtin.command:
             cmd: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-          changed_when: false
+          register: flathub_result
+          changed_when: flathub_result.stdout | length > 0
 
         - name: Install Flatpak GUI apps
           ansible.builtin.command:
@@ -298,6 +321,3 @@
             - com.dropbox.Client
           changed_when: false
           failed_when: false
-
-      tags: flatpak
-      when: profile == 'desktop'
