@@ -1,6 +1,6 @@
 # postinstall.sh
 
-Post-install automation for developer workstations.
+My personal post-install automation. Not a general-purpose tool, but feel free to take a peek.
 
 ## Linux
 
