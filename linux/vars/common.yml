@@ -4,6 +4,7 @@
 pkg_dev_common:
   - curl
   - direnv
+  - fzf
   - git
   - git-delta
   - git-extras
