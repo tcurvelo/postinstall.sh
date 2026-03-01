@@ -60,6 +60,12 @@
         - vim
       tags: dev
 
+    - name: Install oh-my-zsh
+      ansible.builtin.shell:
+        cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
+      tags: dev
+
     - name: Install claude-code via native installer  # noqa: command-instead-of-module risky-shell-pipe
       ansible.builtin.shell:
         cmd: curl -fsSL https://claude.ai/install.sh | bash
@@ -272,12 +278,6 @@
             append: true
 
     # ── desktop ───────────────────────────────────────────────────────────────
-    - name: Install oh-my-zsh
-      ansible.builtin.shell:
-        cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-        creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
-      tags: desktop
-
     - name: Install openconnect
       become: true
       ansible.builtin.package:
