@@ -1,0 +1,6 @@
+---
+pkg_build_tools:
+  - build-essential
+pkg_ctags: exuberant-ctags
+pkg_p7zip: p7zip-full
+pkg_nm_openconnect: network-manager-openconnect-gnome

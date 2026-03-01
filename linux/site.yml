@@ -1,0 +1,303 @@
+---
+- name: Post-install setup
+  hosts: localhost
+  connection: local
+  become: false
+  vars:
+    profile: server
+    # Debian-style architecture name for apt repo URLs (e.g. amd64, arm64).
+    deb_arch: "{{ 'amd64' if ansible_architecture == 'x86_64' else 'arm64' if ansible_architecture == 'aarch64' else ansible_architecture }}"
+  vars_files:
+    - vars/common.yml
+    - "vars/{{ ansible_distribution | lower }}.yml"
+
+  tasks:
+
+    # ── system ───────────────────────────────────────────────────────────────
+    - name: Generate SSH key
+      community.crypto.openssh_keypair:
+        path: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+        type: rsa
+      tags: system
+
+    - name: Configure locales
+      become: true
+      ansible.builtin.shell: >
+        command -v locale-gen &>/dev/null &&
+        locale-gen en_US.UTF-8 pt_BR.UTF-8 ||
+        localectl set-locale LANG=en_US.UTF-8
+      changed_when: false
+      tags: system
+
+    # ── dev ──────────────────────────────────────────────────────────────────
+    - name: Install dev packages
+      become: true
+      ansible.builtin.package:
+        name: "{{ pkg_build_tools + pkg_dev_common + [pkg_ctags, pkg_p7zip] }}"
+        state: present
+      tags: dev
+
+    - name: Register neovim as vi/vim alternative
+      become: true
+      ansible.builtin.command:
+        cmd: update-alternatives --install /usr/bin/{{ item }} {{ item }} /usr/bin/nvim 60
+      loop:
+        - vi
+        - vim
+      changed_when: false
+      tags: dev
+
+    - name: Install claude-code via native installer
+      ansible.builtin.shell:
+        cmd: curl -fsSL https://claude.ai/install.sh | bash
+        creates: "{{ ansible_env.HOME }}/.local/bin/claude"
+      tags: dev
+
+    # ── python ───────────────────────────────────────────────────────────────
+    - name: Install uv
+      ansible.builtin.shell:
+        cmd: curl -LsSf https://astral.sh/uv/install.sh | sh
+        creates: "{{ ansible_env.HOME }}/.local/bin/uv"
+      tags: python
+
+    - name: Install Python versions via uv
+      ansible.builtin.command:
+        cmd: "{{ ansible_env.HOME }}/.local/bin/uv python install 3.13 3.12 3.11"
+      changed_when: false
+      tags: python
+
+    - name: Install Python tools via uv
+      ansible.builtin.command:
+        cmd: "{{ ansible_env.HOME }}/.local/bin/uv tool install {{ item }}"
+      loop:
+        - ipdb
+        - pip-tools
+        - pipenv
+        - jupyterlab
+        - scrapy
+      changed_when: false
+      failed_when: false
+      tags: python
+
+    # ── k8s ──────────────────────────────────────────────────────────────────
+    - block:
+        - name: Ensure ~/.local/bin exists
+          ansible.builtin.file:
+            path: "{{ ansible_env.HOME }}/.local/bin"
+            state: directory
+            mode: "0755"
+
+        - name: Get latest kubectl version
+          ansible.builtin.uri:
+            url: https://dl.k8s.io/release/stable.txt
+            return_content: true
+          register: kubectl_version
+
+        - name: Download kubectl
+          ansible.builtin.get_url:
+            url: "https://dl.k8s.io/release/{{ kubectl_version.content | trim }}/bin/linux/amd64/kubectl"
+            dest: "{{ ansible_env.HOME }}/.local/bin/kubectl"
+            mode: "0755"
+            force: false
+
+        - name: Download kind
+          ansible.builtin.get_url:
+            url: https://kind.sigs.k8s.io/dl/v0.27.0/kind-linux-amd64
+            dest: "{{ ansible_env.HOME }}/.local/bin/kind"
+            mode: "0755"
+            force: false
+
+        - name: Get latest k9s release info
+          ansible.builtin.uri:
+            url: https://api.github.com/repos/derailed/k9s/releases/latest
+            return_content: true
+          register: k9s_release
+          when: ansible_distribution == "Ubuntu"
+
+        - name: Download k9s deb (Ubuntu)
+          ansible.builtin.get_url:
+            url: "{{ (k9s_release.json.assets | selectattr('name', 'equalto', 'k9s_linux_amd64.deb') | first).browser_download_url }}"
+            dest: /tmp/k9s_linux_amd64.deb
+            force: false
+          when: ansible_distribution == "Ubuntu"
+
+        - name: Install k9s deb (Ubuntu)
+          become: true
+          ansible.builtin.apt:
+            deb: /tmp/k9s_linux_amd64.deb
+          when: ansible_distribution == "Ubuntu"
+
+        - name: Install k9s (Fedora)
+          become: true
+          ansible.builtin.dnf:
+            name: k9s
+            state: present
+          when: ansible_distribution == "Fedora"
+
+      tags: k8s
+
+    # ── hashicorp ─────────────────────────────────────────────────────────────
+    - block:
+        - name: Download HashiCorp GPG key (Ubuntu)
+          become: true
+          ansible.builtin.shell:
+            cmd: >
+              wget -O- https://apt.releases.hashicorp.com/gpg |
+              gpg --dearmor |
+              tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+            creates: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+          when: ansible_distribution == "Ubuntu"
+
+        - name: Add HashiCorp apt repository (Ubuntu)
+          become: true
+          ansible.builtin.apt_repository:
+            repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+            state: present
+            filename: hashicorp
+          when: ansible_distribution == "Ubuntu"
+
+        - name: Add HashiCorp dnf repository (Fedora)
+          become: true
+          ansible.builtin.get_url:
+            url: https://rpm.releases.hashicorp.com/fedora/hashicorp.repo
+            dest: /etc/yum.repos.d/hashicorp.repo
+            force: false
+          when: ansible_distribution == "Fedora"
+
+        - name: Install HashiCorp tools
+          become: true
+          ansible.builtin.package:
+            name:
+              - terraform
+              - vault
+              - nomad
+            state: present
+
+      tags: hashicorp
+
+    # ── docker ────────────────────────────────────────────────────────────────
+    - block:
+        - name: Remove old Docker packages (Ubuntu)
+          become: true
+          ansible.builtin.apt:
+            name:
+              - docker.io
+              - docker-doc
+              - docker-compose
+              - docker-compose-v2
+              - podman-docker
+              - containerd
+              - runc
+            state: absent
+          failed_when: false
+          when: ansible_distribution == "Ubuntu"
+
+        - name: Create /etc/apt/keyrings directory (Ubuntu)
+          become: true
+          ansible.builtin.file:
+            path: /etc/apt/keyrings
+            state: directory
+            mode: "0755"
+          when: ansible_distribution == "Ubuntu"
+
+        - name: Download Docker GPG key (Ubuntu)
+          become: true
+          ansible.builtin.get_url:
+            url: https://download.docker.com/linux/ubuntu/gpg
+            dest: /etc/apt/keyrings/docker.asc
+            mode: "0644"
+            force: false
+          when: ansible_distribution == "Ubuntu"
+
+        - name: Add Docker apt repository (Ubuntu)
+          become: true
+          ansible.builtin.apt_repository:
+            repo: "deb [arch={{ deb_arch }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+            state: present
+            filename: docker
+          when: ansible_distribution == "Ubuntu"
+
+        - name: Add Docker dnf repository (Fedora)
+          become: true
+          ansible.builtin.get_url:
+            url: https://download.docker.com/linux/fedora/docker-ce.repo
+            dest: /etc/yum.repos.d/docker-ce.repo
+            force: false
+          when: ansible_distribution == "Fedora"
+
+        - name: Install Docker CE
+          become: true
+          ansible.builtin.package:
+            name:
+              - docker-ce
+              - docker-ce-cli
+              - containerd.io
+              - docker-buildx-plugin
+              - docker-compose-plugin
+            state: present
+
+        - name: Enable and start Docker daemon
+          become: true
+          ansible.builtin.systemd:
+            name: docker
+            enabled: true
+            state: started
+
+        - name: Add user to docker group
+          become: true
+          ansible.builtin.user:
+            name: "{{ ansible_user_id }}"
+            groups: docker
+            append: true
+
+      tags: docker
+
+    # ── desktop ───────────────────────────────────────────────────────────────
+    - name: Install oh-my-zsh
+      ansible.builtin.shell:
+        cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+        creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
+      tags: desktop
+
+    - name: Install openconnect
+      become: true
+      ansible.builtin.package:
+        name: ["openconnect", "{{ pkg_nm_openconnect }}"]
+        state: present
+      tags: desktop
+      when: profile == 'desktop'
+
+    # ── flatpak ───────────────────────────────────────────────────────────────
+    - block:
+        - name: Install flatpak
+          become: true
+          ansible.builtin.package:
+            name: flatpak
+            state: present
+
+        - name: Add Flathub remote
+          become: true
+          ansible.builtin.command:
+            cmd: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          changed_when: false
+
+        - name: Install Flatpak GUI apps
+          ansible.builtin.command:
+            cmd: flatpak install --noninteractive flathub {{ item }}
+          loop:
+            - net.kovidgoyal.kitty
+            - com.google.Chrome
+            - com.visualstudio.code
+            - com.slack.Slack
+            - md.obsidian.Obsidian
+            - com.bitwarden.desktop
+            - io.dbeaver.DBeaverCommunity
+            - org.gimp.GIMP
+            - org.inkscape.Inkscape
+            - com.calibre_ebook.calibre
+            - com.dropbox.Client
+          changed_when: false
+          failed_when: false
+
+      tags: flatpak
+      when: profile == 'desktop'

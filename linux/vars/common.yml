@@ -1,0 +1,26 @@
+---
+# Packages with identical names on Ubuntu and Fedora.
+# Distro-specific names live in ubuntu.yml / fedora.yml.
+pkg_dev_common:
+  - curl
+  - direnv
+  - git
+  - git-delta
+  - git-extras
+  - httpie
+  - jq
+  - neovim
+  - nodejs
+  - npm
+  - perl
+  - ranger
+  - ripgrep
+  - rsync
+  - tig
+  - tmux
+  - tree
+  - unzip
+  - wget
+  - zsh
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting

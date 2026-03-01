@@ -1,0 +1,6 @@
+---
+pkg_build_tools:
+  - "@development-tools"
+pkg_ctags: ctags
+pkg_p7zip: p7zip
+pkg_nm_openconnect: NetworkManager-openconnect-gnome
