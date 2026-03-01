@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install linting tools
+        run: pip install shellcheck-py yamllint ansible-core ansible-lint
+
+      - name: shellcheck
+        run: shellcheck install.sh linux/bootstrap.sh linux/system.sh
+
+      - name: yamllint
+        run: |
+          yamllint -d '{extends: default, rules: {line-length: disable}}' \
+            linux/site.yml linux/vars/
+
+      - name: ansible syntax-check
+        run: |
+          ansible-playbook --syntax-check \
+            -i localhost, \
+            -e profile=server \
+            linux/site.yml
+
+      - name: ansible-lint
+        run: ansible-lint linux/site.yml
