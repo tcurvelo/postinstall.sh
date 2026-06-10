@@ -6,40 +6,40 @@
 # ── system ───────────────────────────────────────────────────────────────
 - name: Generate SSH key
   ansible.builtin.command:
-    cmd: ssh-keygen -t rsa -N "" -f "{{ ansible_env.HOME }}/.ssh/id_rsa"
-    creates: "{{ ansible_env.HOME }}/.ssh/id_rsa"
+    cmd: ssh-keygen -t rsa -N "" -f "{{ ansible_facts['env']['HOME'] }}/.ssh/id_rsa"
+    creates: "{{ ansible_facts['env']['HOME'] }}/.ssh/id_rsa"
   tags: system
 
 # ── dev ──────────────────────────────────────────────────────────────────
 - name: Install oh-my-zsh
   ansible.builtin.shell:
     cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    creates: "{{ ansible_env.HOME }}/.oh-my-zsh"
+    creates: "{{ ansible_facts['env']['HOME'] }}/.oh-my-zsh"
   tags: dev
 
 - name: Install claude-code via native installer  # noqa: command-instead-of-module risky-shell-pipe
   ansible.builtin.shell:
     cmd: curl -fsSL https://claude.ai/install.sh | bash
-    creates: "{{ ansible_env.HOME }}/.local/bin/claude"
+    creates: "{{ ansible_facts['env']['HOME'] }}/.local/bin/claude"
   tags: dev
 
 # ── python ───────────────────────────────────────────────────────────────
 - name: Install uv  # noqa: command-instead-of-module risky-shell-pipe
   ansible.builtin.shell:
     cmd: curl -LsSf https://astral.sh/uv/install.sh | sh
-    creates: "{{ ansible_env.HOME }}/.local/bin/uv"
+    creates: "{{ ansible_facts['env']['HOME'] }}/.local/bin/uv"
   tags: python
 
 - name: Install Python versions via uv
   ansible.builtin.command:
-    cmd: "{{ ansible_env.HOME }}/.local/bin/uv python install 3.13 3.12 3.11"
+    cmd: "{{ ansible_facts['env']['HOME'] }}/.local/bin/uv python install 3.13 3.12 3.11"
   register: uv_python_result
   changed_when: "'Installed Python' in uv_python_result.stdout"
   tags: python
 
 - name: Install Python tools via uv
   ansible.builtin.command:
-    cmd: "{{ ansible_env.HOME }}/.local/bin/uv tool install {{ item }}"
+    cmd: "{{ ansible_facts['env']['HOME'] }}/.local/bin/uv tool install {{ item }}"
   loop:
     - ipdb
     - pip-tools

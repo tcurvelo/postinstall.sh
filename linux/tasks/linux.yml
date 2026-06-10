@@ -9,7 +9,7 @@
     cmd: locale-gen en_US.UTF-8 pt_BR.UTF-8
   register: locale_gen_result
   changed_when: "'Generating' in locale_gen_result.stdout"
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_facts['distribution'] == "Ubuntu"
   tags: system
 
 - name: Configure locales (Fedora)
@@ -17,7 +17,7 @@
   ansible.builtin.command:
     cmd: localectl set-locale LANG=en_US.UTF-8
   changed_when: false
-  when: ansible_distribution == "Fedora"
+  when: ansible_facts['distribution'] == "Fedora"
   tags: system
 
 # ── dev ──────────────────────────────────────────────────────────────────
@@ -49,7 +49,7 @@
   block:
     - name: Ensure ~/.local/bin exists
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.local/bin"
+        path: "{{ ansible_facts['env']['HOME'] }}/.local/bin"
         state: directory
         mode: "0755"
 
@@ -62,14 +62,14 @@
     - name: Download kubectl
       ansible.builtin.get_url:
         url: "https://dl.k8s.io/release/{{ kubectl_version.content | trim }}/bin/linux/{{ deb_arch }}/kubectl"
-        dest: "{{ ansible_env.HOME }}/.local/bin/kubectl"
+        dest: "{{ ansible_facts['env']['HOME'] }}/.local/bin/kubectl"
         mode: "0755"
         force: false
 
     - name: Download kind
       ansible.builtin.get_url:
         url: "https://kind.sigs.k8s.io/dl/v0.27.0/kind-linux-{{ deb_arch }}"
-        dest: "{{ ansible_env.HOME }}/.local/bin/kind"
+        dest: "{{ ansible_facts['env']['HOME'] }}/.local/bin/kind"
         mode: "0755"
         force: false
 
@@ -78,7 +78,7 @@
         url: https://api.github.com/repos/derailed/k9s/releases/latest
         return_content: true
       register: k9s_release
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Download k9s deb (Ubuntu)
       ansible.builtin.get_url:
@@ -86,20 +86,20 @@
         dest: "/tmp/k9s_linux_{{ deb_arch }}.deb"
         mode: "0644"
         force: false
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Install k9s deb (Ubuntu)
       become: true
       ansible.builtin.apt:
         deb: "/tmp/k9s_linux_{{ deb_arch }}.deb"
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Install k9s (Fedora)
       become: true
       ansible.builtin.dnf:
         name: k9s
         state: present
-      when: ansible_distribution == "Fedora"
+      when: ansible_facts['distribution'] == "Fedora"
 
 # ── hashicorp ─────────────────────────────────────────────────────────────
 - name: Set up HashiCorp tools
@@ -113,15 +113,15 @@
           gpg --dearmor |
           tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
         creates: /usr/share/keyrings/hashicorp-archive-keyring.gpg
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Add HashiCorp apt repository (Ubuntu)
       become: true
       ansible.builtin.apt_repository:
-        repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+        repo: "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ ansible_facts['distribution_release'] }} main"
         state: present
         filename: hashicorp
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Add HashiCorp dnf repository (Fedora)
       become: true
@@ -130,7 +130,7 @@
         dest: /etc/yum.repos.d/hashicorp.repo
         mode: "0644"
         force: false
-      when: ansible_distribution == "Fedora"
+      when: ansible_facts['distribution'] == "Fedora"
 
     - name: Install HashiCorp packages
       become: true
@@ -158,7 +158,7 @@
           - runc
         state: absent
       failed_when: false
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Create /etc/apt/keyrings directory (Ubuntu)
       become: true
@@ -166,7 +166,7 @@
         path: /etc/apt/keyrings
         state: directory
         mode: "0755"
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Download Docker GPG key (Ubuntu)
       become: true
@@ -175,17 +175,17 @@
         dest: /etc/apt/keyrings/docker.asc
         mode: "0644"
         force: false
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Add Docker apt repository (Ubuntu)
       become: true
       ansible.builtin.apt_repository:
         repo: >-
           deb [arch={{ deb_arch }} signed-by=/etc/apt/keyrings/docker.asc]
-          https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+          https://download.docker.com/linux/ubuntu {{ ansible_facts['distribution_release'] }} stable
         state: present
         filename: docker
-      when: ansible_distribution == "Ubuntu"
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Add Docker dnf repository (Fedora)
       become: true
@@ -194,7 +194,7 @@
         dest: /etc/yum.repos.d/docker-ce.repo
         mode: "0644"
         force: false
-      when: ansible_distribution == "Fedora"
+      when: ansible_facts['distribution'] == "Fedora"
 
     - name: Install Docker CE packages
       become: true
