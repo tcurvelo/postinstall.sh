@@ -32,7 +32,28 @@
     name: "{{ item }}"
     state: present
     path: "{{ brew_prefix }}/bin"
-  loop: "{{ brew_casks }}"
+  loop: "{{ brew_casks | difference(['docker-desktop']) }}"
+  tags: desktop
+
+# docker-desktop post-install creates symlinks in /usr/local/bin via sudo,
+# which requires an interactive TTY. Run separately with ignore_errors so a
+# missing TTY (e.g. CI) doesn't abort the play; the app itself still installs.
+- name: Install Docker Desktop (Homebrew cask)
+  community.general.homebrew_cask:
+    name: docker-desktop
+    state: present
+    path: "{{ brew_prefix }}/bin"
+  ignore_errors: true  # noqa: ignore-errors
+  register: docker_cask_result
+  tags: desktop
+
+- name: Warn if Docker Desktop install failed
+  ansible.builtin.debug:
+    msg: >-
+      Docker Desktop could not create its CLI symlinks (sudo required a TTY).
+      The .app bundle should still be in /Applications. Run
+      `brew install --cask docker-desktop` in a terminal to complete the setup.
+  when: docker_cask_result is failed
   tags: desktop
 
 # ── go via mise (Python stays on uv, see tasks/common.yml) ─────────────────
