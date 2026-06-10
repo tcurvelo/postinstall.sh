@@ -3,6 +3,14 @@
 # Handles passwordless sudo — SSH key and locales are in site.yml.
 set -e
 
+# Passwordless sudo is Linux-only. On macOS (a managed work machine) we skip it:
+# MDM policy often forbids it, and the macOS tasks run entirely as the normal
+# user (Homebrew refuses root), so no sudo is needed there.
+if [ "$(uname -s)" = "Darwin" ]; then
+  echo ">>> macOS detected — skipping passwordless sudo setup."
+  exit 0
+fi
+
 [ "$(id -u)" != "0" ] && SUDO="sudo" || SUDO=""
 
 # ── Passwordless sudo ──────────────────────────────────────────────────────────

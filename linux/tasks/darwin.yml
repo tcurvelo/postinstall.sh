@@ -1,0 +1,93 @@
+---
+# macOS (Apple Silicon) provisioning. Every Homebrew / osx_defaults task runs as
+# the normal user — become is false (inherited from the play). Homebrew refuses
+# to run as root.
+#
+# A MacBook is a single interactive profile, so nothing here branches on
+# `profile` — bootstrap.sh forces profile=desktop on Darwin.
+#
+# Bootstrap order (handled by bootstrap.sh): Xcode CLT -> Homebrew -> Ansible.
+# The build toolchain comes from the Xcode Command Line Tools, so there is no
+# equivalent of the Linux `pkg_build_tools` here.
+#
+# Linux tasks with NO macOS equivalent — intentionally NOT ported:
+#   * Configure locales (locale-gen / localectl) — macOS manages locale itself.
+#   * Register nvim as vi/vim alternative (update-alternatives) — Debian-only.
+#   * Docker daemon (systemd enable/start) + docker group — Docker Desktop is a
+#     GUI app: no systemd unit, no unix group to join. Start it from /Applications.
+#   * NetworkManager-openconnect GUI plugin — NetworkManager is Linux-only.
+#   * Flatpak / Flathub — Linux-only; GUI apps are Homebrew casks below.
+
+# ── dev: CLI tools ────────────────────────────────────────────────────────
+- name: Install CLI formulae (Homebrew)
+  community.general.homebrew:
+    name: "{{ brew_formulae }}"
+    state: present
+    path: "{{ brew_prefix }}/bin"
+  tags: dev
+
+# ── desktop: GUI apps ─────────────────────────────────────────────────────
+- name: Install GUI apps (Homebrew casks)
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: present
+    path: "{{ brew_prefix }}/bin"
+  loop: "{{ brew_casks }}"
+  tags: desktop
+
+# ── go via mise (Python stays on uv, see tasks/common.yml) ─────────────────
+- name: Configure Go via mise
+  ansible.builtin.command:
+    cmd: "{{ brew_prefix }}/bin/mise use --global go@latest"
+  register: mise_go
+  changed_when: "'go@' in mise_go.stderr or 'go@' in mise_go.stdout"
+  tags: dev
+
+# ── hashicorp ─────────────────────────────────────────────────────────────
+- name: Tap HashiCorp
+  community.general.homebrew_tap:
+    name: "{{ item }}"
+    state: present
+    path: "{{ brew_prefix }}/bin"
+  loop: "{{ brew_taps }}"
+  tags: hashicorp
+
+- name: Install HashiCorp tools (Homebrew)
+  community.general.homebrew:
+    name: "{{ brew_hashicorp }}"
+    state: present
+    path: "{{ brew_prefix }}/bin"
+  tags: hashicorp
+
+# ── k8s ──────────────────────────────────────────────────────────────────
+- name: Install k8s tools (Homebrew)
+  community.general.homebrew:
+    name: "{{ brew_k8s }}"
+    state: present
+    path: "{{ brew_prefix }}/bin"
+  tags: k8s
+
+# ── macOS system defaults ─────────────────────────────────────────────────
+- name: Disable press-and-hold (enable key repeat)
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: ApplePressAndHoldEnabled
+    type: bool
+    value: false
+  tags: system
+
+- name: Set fast key repeat rate
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: KeyRepeat
+    type: int
+    value: 2
+  tags: system
+
+- name: Set short initial key repeat delay
+  community.general.osx_defaults:
+    domain: NSGlobalDomain
+    key: InitialKeyRepeat
+    type: int
+    value: 15
+  tags: system

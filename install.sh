@@ -6,7 +6,11 @@ DEST="$HOME/.postinstall"
 
 # Install git if missing
 if ! command -v git &>/dev/null; then
-  if command -v apt &>/dev/null; then
+  if [ "$(uname -s)" = "Darwin" ]; then
+    echo "git not found — install the Xcode Command Line Tools first:" >&2
+    echo "  xcode-select --install" >&2
+    exit 1
+  elif command -v apt &>/dev/null; then
     sudo apt update -y && sudo apt install -y git
   elif command -v dnf &>/dev/null; then
     sudo dnf install -y git

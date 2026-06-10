@@ -1,0 +1,56 @@
+---
+# Homebrew names — these differ from the apt/dnf names in ubuntu.yml / fedora.yml.
+# `ansible_distribution | lower` is "macosx" on macOS, so site.yml loads this file.
+
+brew_prefix: /opt/homebrew  # Apple Silicon (Intel Homebrew lives in /usr/local)
+
+brew_formulae:
+  # CLI dev tools (parity with pkg_dev_common)
+  - curl
+  - direnv
+  - fzf
+  - git
+  - git-delta
+  - git-extras
+  - httpie
+  - jq
+  - neovim
+  - perl
+  - ranger
+  - ripgrep
+  - rsync
+  - tig
+  - tmux
+  - tree
+  - wget
+  - zsh
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
+  # macOS-specific formula names
+  - universal-ctags   # exuberant-ctags (Ubuntu) / ctags (Fedora)
+  - sevenzip          # p7zip on Linux
+  # extra tooling
+  - mise              # manages Go (Python stays on uv — see tasks/common.yml)
+  - codex             # OpenAI Codex CLI (not provisioned on Linux)
+  # NOTE: `unzip` is built into macOS — intentionally omitted.
+
+brew_casks:
+  - kitty
+  - docker-desktop
+  - visual-studio-code
+  - obsidian
+  - dbeaver-community
+  - dropbox
+
+brew_taps:
+  - hashicorp/tap
+
+brew_hashicorp:
+  - hashicorp/tap/terraform
+  - hashicorp/tap/vault
+  - hashicorp/tap/nomad
+
+brew_k8s:
+  - kubernetes-cli   # provides kubectl
+  - kind
+  - k9s

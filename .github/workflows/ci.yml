@@ -19,7 +19,9 @@ jobs:
           python-version: "3.x"
 
       - name: Install linting tools
-        run: pip install shellcheck-py yamllint ansible-core ansible-lint
+        run: |
+          pip install shellcheck-py yamllint ansible-core ansible-lint
+          ansible-galaxy collection install community.general
 
       - name: shellcheck
         run: shellcheck install.sh linux/bootstrap.sh linux/system.sh
@@ -27,7 +29,7 @@ jobs:
       - name: yamllint
         run: |
           yamllint -d '{extends: default, rules: {line-length: disable}}' \
-            linux/site.yml linux/vars/
+            linux/site.yml linux/tasks/ linux/vars/
 
       - name: ansible syntax-check
         run: |
@@ -37,4 +39,4 @@ jobs:
             linux/site.yml
 
       - name: ansible-lint
-        run: ansible-lint linux/site.yml
+        run: ansible-lint linux/site.yml linux/tasks/
