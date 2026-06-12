@@ -35,12 +35,13 @@ brew_formulae:
   # NOTE: `unzip` is built into macOS — intentionally omitted.
 
 brew_casks:
-  - kitty
+  - iterm2
   - docker-desktop
   - visual-studio-code
   - obsidian
   - dbeaver-community
-  - dropbox
+  - postman
+  - obs
 
 brew_taps:
   - hashicorp/tap
